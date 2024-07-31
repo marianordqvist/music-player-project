@@ -14,5 +14,5 @@ This is a site to help discover new music and artists. It will let users log in 
 
 ## Project links
 
-- Website: Not deployed yet
+- Website: music-player-project-sooty.vercel.app
 - Github: [Visit repository](https://github.com/marianordqvist/music-player-project)
