@@ -1,20 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-interface MusicPlayerInterface {
-  isPlaying: boolean;
-  // currentTrack: object;
-  // currentTime: number;
-  // volume: number;
-  // isMuted: boolean;
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { MusicPlayerInterface } from "../../types/musicPlayerTypes";
 
 const initialState: MusicPlayerInterface = {
   isPlaying: false,
-  // currentTrack: {
-  //   title: "",
-  //   waveType: "",
-  //   imageUrl: "",
-  // },
+  currentTrack: {
+    title: "",
+    imageUrl: "",
+  },
   // currentTime: 0,
   // volume: 1.0,
   // isMuted: false,
