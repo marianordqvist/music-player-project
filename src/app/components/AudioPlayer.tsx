@@ -1,13 +1,12 @@
 "use client";
 import { CiPlay1, CiPause1, CiVolumeHigh, CiVolumeMute } from "react-icons/ci";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { play, pause } from "../state/MusicPlayer/MusicPlayerSlice";
-import { useEffect } from "react";
 
-const AudioPlayer: React.FC = () => {
-  const playerRef = useRef<HTMLAudioElement>(null);
+const AudioPlayer = () => {
+  const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
 
   // get state from redux store
@@ -21,17 +20,15 @@ const AudioPlayer: React.FC = () => {
 
   // define handlers to dispatch actions
   const handlePlay = () => {
-    if (playerRef.current) {
-      playerRef.current.play();
-      console.log("handlePlay called");
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.play();
       dispatch(play());
     }
   };
 
   const handlePause = () => {
-    if (playerRef.current) {
-      playerRef.current.pause();
-      console.log("handlePause called");
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.pause();
       dispatch(pause());
     }
   };
@@ -40,9 +37,9 @@ const AudioPlayer: React.FC = () => {
     console.log(`isPlaying: ${isPlaying}`);
   }, [isPlaying]);
 
-  return (
-    <>
-      <div className="audioPlayer">
+  const AudioButtons = () => {
+    return (
+      <>
         <button className="bg-slate-200 p-2" onClick={handlePlay}>
           <CiPlay1 />
         </button>
@@ -55,8 +52,16 @@ const AudioPlayer: React.FC = () => {
         <button className="bg-slate-200 p-2">
           <CiVolumeMute />
         </button>
+      </>
+    );
+  };
+
+  return (
+    <>
+      <div className="audioPlayer">
+        <AudioButtons />
         {/* <p>Current track: {currentTrack?.title || "no track selected"}</p> */}
-        <audio ref={playerRef} />
+        <audio ref={audioPlayerRef} />
       </div>
     </>
   );

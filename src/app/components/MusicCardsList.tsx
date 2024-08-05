@@ -5,14 +5,13 @@ import { RootState, AppDispatch } from "../state/store";
 import { fetchCardInfo } from "../state/MusicCard/MusicCardSlice";
 import MusicCard from "../components/MusicCard";
 
-const MusicCardList: React.FC = () => {
+const MusicCardList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { cards, loading, error } = useSelector(
     (state: RootState) => state.MusicCard
   );
 
   useEffect(() => {
-    console.log("useEffect called: dispatching fetchCardInfo");
     dispatch(fetchCardInfo());
   }, [dispatch]);
 
