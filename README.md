@@ -11,6 +11,7 @@ This is a site to help discover new music and artists. It will let users log in 
 - Redux
 - Ghost
 - Tailwind
+- Next-auth
 
 ## Project links
 
