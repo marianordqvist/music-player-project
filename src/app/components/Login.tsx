@@ -15,12 +15,3 @@ export default function login() {
     </form>
   );
 }
-
-// scopes we will need:
-// streaming
-//  ? user-read-playback-state, user-modify-playback-state, (see what they are playing)
-// user-follow-modify, user-follow-read,
-// user-library-modify, user-library-read,
-
-// 1. request user authorization
-// 2. make api calls with access token
