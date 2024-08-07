@@ -6,7 +6,7 @@ const LogOut = () => {
     <form
       action={async () => {
         "use server";
-        await signOut();
+        await signOut({ redirectTo: "/" });
       }}
     >
       <button type="submit" className="bg-zinc-300 p-3 rounded-2xl m-10">
