@@ -9,7 +9,7 @@ const LogOut = () => {
         await signOut({ redirectTo: "/" });
       }}
     >
-      <button type="submit" className="bg-zinc-300 p-3 rounded-2xl m-10">
+      <button type="submit" className="bg-zinc-300 p-3 rounded-2xl my-10">
         Sign Out
       </button>
     </form>
