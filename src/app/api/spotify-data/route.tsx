@@ -1,37 +1,39 @@
 "use server";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "../../../../authconfig";
+import { getGenres, getTracksByGenres } from "../../../_lib/SpotifyService";
 
 export async function GET() {
-  // check if user authorized
+  // Step 1: Check session and extract accessToken
   const session = await auth();
-  console.log("session: ", session);
-  if (!session || !session.user.id) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+
+  if (!session || !session.accessToken) {
+    return NextResponse.json(
+      { error: "Unauthorized to fetch top songs" },
+      { status: 401 }
+    );
   }
 
-  let token = session.user.id;
-  console.log(token);
+  const accessToken = session.accessToken;
 
-  // if they are, fetch from spotify
   try {
-    const response = await fetch("https://api.spotify.com/v1/me", {
-      headers: {
-        Authorization: `Bearer + ${token}`,
-      },
-    });
+    // fetch and shuffle genres
+    const genres = await getGenres(accessToken);
+    // console.log("Genres fetched:", genres);
 
-    if (!response.ok) {
-      const errorBody = await response.text(); // Get the error body as text
-      console.error("Error response from Spotify:", errorBody);
-      throw new Error(`Spotify API responded with status ${response.status}`);
-    }
+    const selectedGenres = genres.sort(() => 0.5 - Math.random()).slice(0, 8);
+    // console.log("Selected genres:", selectedGenres);
 
-    const data = await response.json();
-    console.log(data);
-    return NextResponse.json(data);
+    // fetch tracks from those genres
+    const tracks = await getTracksByGenres(selectedGenres, accessToken);
+    console.log("Final sorted tracks:", tracks);
+
+    return NextResponse.json(tracks);
   } catch (error) {
-    console.error("error fetching from Spotify", error);
-    return NextResponse.json({ error: "failed to fetch data from Spotify" });
+    console.error("Error fetching Spotify data:", error);
+    return NextResponse.json(
+      { error: error.message || "Failed to fetch data" },
+      { status: 500 }
+    );
   }
 }
