@@ -9,7 +9,7 @@ async function Greeting() {
   if (!session || !session.user) return null;
 
   const userName = session.user.name || "";
-  console.log(session.user);
+
   return <div className="mb-5">Hello {userName}!</div>;
 }
 

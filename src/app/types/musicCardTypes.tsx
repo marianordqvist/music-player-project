@@ -1,13 +1,28 @@
-export interface MusicCardInterface {
-  id?: number;
-  artist: string;
-  song?: string;
+export interface CardComponentInterface {
+  key: string;
+  cardId: string;
+  image?: string;
   songName: string;
-  image: string;
+  artist: string;
+  genre: string;
 }
 
-export interface MusicCardState {
-  cards: MusicCardInterface[];
-  loading: boolean;
-  error: string | null;
+// api types for card
+export interface Image {
+  url: string;
+}
+
+export interface Album {
+  images?: Image[];
+}
+
+export interface Artist {
+  name: string;
+}
+
+export interface ApiCardInterface {
+  album?: Album;
+  name: string;
+  artists: Artist[];
+  genre: string;
 }

@@ -1,10 +1,15 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { MusicCardState, MusicCardInterface } from "@/app/types/musicCardTypes";
-import { musicCardData } from "../MusicCard/musicCardData";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { ApiCardInterface } from "@/app/types/musicCardTypes";
 
-const initialState: MusicCardState = {
+interface MusicCardSliceInterface {
+  cards: ApiCardInterface[];
+  status: "idle" | "pending" | "succeeded" | "rejected";
+  error: string | null;
+}
+
+const initialState: MusicCardSliceInterface = {
   cards: [],
-  loading: false,
+  status: "idle",
   error: null,
 };
 
@@ -12,34 +17,32 @@ const initialState: MusicCardState = {
 export const fetchCardInfo = createAsyncThunk(
   "MusicCard/fetchCardInfo",
   async () => {
-    return new Promise<MusicCardInterface[]>((resolve) => {
-      setTimeout(() => {
-        resolve(musicCardData);
-      }, 1000);
-    });
+    const response = await fetch("/api/spotify-data");
+    const data = await response.json();
+
+    return data;
   }
 );
 
 const musicCardSlice = createSlice({
-  name: "MusicCard",
+  name: "cards",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchCardInfo.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.status = "pending";
       })
       .addCase(
         fetchCardInfo.fulfilled,
-        (state, action: PayloadAction<MusicCardInterface[]>) => {
+        (state, action: PayloadAction<ApiCardInterface[]>) => {
+          state.status = "succeeded";
           state.cards = action.payload;
-          state.loading = false;
         }
       )
       .addCase(fetchCardInfo.rejected, (state, action) => {
-        (state.loading = false),
-          (state.error = action.error.message || "failed to fetch cards");
+        state.status = "rejected";
+        state.error = action.error.message ?? "failed to fetch cards";
       });
   },
 });
