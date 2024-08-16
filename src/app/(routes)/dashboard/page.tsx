@@ -2,7 +2,6 @@ import AudioPlayer from "@/app/components/AudioPlayer";
 import MusicCardList from "@/app/components/MusicCardsList";
 import LogOut from "@/app/components/LogOut";
 import { auth } from "../../../../authconfig";
-import FetchSpotifyData from "@/app/components/Fetchtest";
 
 async function Greeting() {
   const session = await auth();
@@ -18,7 +17,6 @@ export default async function Dashboard() {
   return (
     <>
       <div className="m-5">
-        <FetchSpotifyData />
         <Greeting />
         <MusicCardList />
         <AudioPlayer />
