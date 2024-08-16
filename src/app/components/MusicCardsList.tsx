@@ -1,38 +1,54 @@
 "use client";
-import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { nanoid } from "@reduxjs/toolkit";
 import { RootState, AppDispatch } from "../state/store";
 import { fetchCardInfo } from "../state/MusicCard/MusicCardSlice";
 import MusicCard from "../components/MusicCard";
+import { RxReload } from "react-icons/rx";
 
 const MusicCardList = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { cards, loading, error } = useSelector(
-    (state: RootState) => state.MusicCard
-  );
 
-  useEffect(() => {
-    dispatch(fetchCardInfo());
-  }, [dispatch]);
+  // extract states from Redux store
+  const cardStatus = useSelector((state: RootState) => state.MusicCard.status);
+  const cards = useSelector((state: RootState) => state.MusicCard.cards);
+  const error = useSelector((state: RootState) => state.MusicCard.error);
 
-  if (loading) {
-    return <p>Loading...</p>;
+  const handleButtonClick = () => {
+    if (cardStatus !== "pending") {
+      dispatch(fetchCardInfo());
+    }
+  };
+
+  if (cardStatus === "pending") {
+    return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <p>Error: {error}</p>;
+  if (cardStatus === "rejected") {
+    return <div> Error: {error}</div>;
   }
 
   return (
     <div className="music-card-list">
-      {cards.map((card) => (
-        <MusicCard
-          key={card.id}
-          image={card.image}
-          songName={card.songName}
-          artist={card.artist}
-        />
-      ))}
+      <div>
+        {cards.map((card) => {
+          const cardId = nanoid();
+          return (
+            <MusicCard
+              key={cardId}
+              cardId={cardId}
+              image={card.album?.images?.[1].url}
+              songName={card.name}
+              artist={card.artists[0].name}
+              genre={card.genre}
+            />
+          );
+        })}
+      </div>
+
+      <button onClick={handleButtonClick} className="bg-pink-50 p-2 rounded-lg">
+        <RxReload />
+      </button>
     </div>
   );
 };

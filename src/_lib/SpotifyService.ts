@@ -1,7 +1,7 @@
 import { TrackInterface } from "../app/types/TrackTypes";
 const SPOTIFY_API_URL = "https://api.spotify.com/v1";
 
-// Fetch 10 genres
+// Fetch genres
 export const getGenres = async (accessToken: string) => {
   const response = await fetch(
     `${SPOTIFY_API_URL}/recommendations/available-genre-seeds`,
@@ -21,7 +21,7 @@ export const getGenres = async (accessToken: string) => {
   return data.genres;
 };
 
-// Fetch 10 artists from those genres
+// Fetch tracks from those genres
 export const getTracksByGenres = async (genres: string[], accessToken: string) => {
   const trackPromises = genres.map(async (genre) => {
     const response = await fetch(
@@ -33,7 +33,6 @@ export const getTracksByGenres = async (genres: string[], accessToken: string) =
       }
     );
 
-    // Check if the response is not OK (e.g., status is not 200-299)
     if (!response.ok) {
       throw new Error(
         `Failed to fetch tracks for genre: ${genre} (status: ${response.status})`
@@ -41,9 +40,10 @@ export const getTracksByGenres = async (genres: string[], accessToken: string) =
     }
 
     const data = await response.json();
+
     return data.tracks.items.map((track: TrackInterface) => ({
       ...track,
-      genre, //To add each genre to each track object
+      genre,
     }));
   });
 
