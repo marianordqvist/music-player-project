@@ -40,17 +40,17 @@ const AudioPlayer = () => {
   const AudioButtons = () => {
     return (
       <>
-        <button className="bg-slate-200 p-2" onClick={handlePlay}>
-          <CiPlay1 />
+        <button className="p-2" onClick={handlePlay}>
+          <CiPlay1 size={20} />
         </button>
-        <button className="bg-slate-200 p-2" onClick={handlePause}>
-          <CiPause1 />
+        <button className="p-2" onClick={handlePause}>
+          <CiPause1 size={20} />
         </button>
-        <button className="bg-slate-200 p-2">
-          <CiVolumeHigh />
+        <button className="p-2">
+          <CiVolumeHigh size={20} />
         </button>
-        <button className="bg-slate-200 p-2">
-          <CiVolumeMute />
+        <button className="p-2">
+          <CiVolumeMute size={20} />
         </button>
       </>
     );
@@ -58,10 +58,12 @@ const AudioPlayer = () => {
 
   return (
     <>
-      <div className="audioPlayer">
-        <AudioButtons />
-        {/* <p>Current track: {currentTrack?.title || "no track selected"}</p> */}
-        <audio ref={audioPlayerRef} />
+      <div className="audioPlayer flex justify-center">
+        <div className="px-40 w-1/2 max-w-[750px] bg-slate-200 p-5 rounded-md flex justify-center gap-3">
+          <AudioButtons />
+          {/* <p>Current track: {currentTrack?.title || "no track selected"}</p> */}
+          <audio ref={audioPlayerRef} />
+        </div>
       </div>
     </>
   );

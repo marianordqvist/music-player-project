@@ -5,6 +5,8 @@ import { RootState, AppDispatch } from "../state/store";
 import { fetchCardInfo } from "../state/MusicCard/MusicCardSlice";
 import MusicCard from "../components/MusicCard";
 import { RxReload } from "react-icons/rx";
+import DefaultButton from "./DefaultButton";
+import LoadingMusicCards from "./LoadingMusicCards";
 
 const MusicCardList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +23,7 @@ const MusicCardList = () => {
   };
 
   if (cardStatus === "pending") {
-    return <div>Loading...</div>;
+    return <LoadingMusicCards />;
   }
 
   if (cardStatus === "rejected") {
@@ -29,27 +31,32 @@ const MusicCardList = () => {
   }
 
   return (
-    <div className="music-card-list">
-      <div>
-        {cards.map((card) => {
-          const cardId = nanoid();
-          return (
-            <MusicCard
-              key={cardId}
-              cardId={cardId}
-              image={card.album?.images?.[1].url}
-              songName={card.name}
-              artist={card.artists[0].name}
-              genre={card.genre}
-            />
-          );
-        })}
+    <>
+      <div className="music-card-list max-w-[1100px] mx-auto">
+        <div className="flex flex-wrap justify-center">
+          {cards.map((card) => {
+            const cardId = nanoid();
+            return (
+              <MusicCard
+                key={cardId}
+                cardId={cardId}
+                image={card.album?.images?.[1].url}
+                songName={card.name}
+                artist={card.artists[0].name}
+                genre={card.genre}
+              />
+            );
+          })}
+        </div>
       </div>
 
-      <button onClick={handleButtonClick} className="bg-pink-50 p-2 rounded-lg">
-        <RxReload />
-      </button>
-    </div>
+      <DefaultButton
+        description="refetch-button"
+        icon={<RxReload />}
+        bgColor="bg-pink-50"
+        clickFunction={handleButtonClick}
+      />
+    </>
   );
 };
 
