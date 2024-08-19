@@ -17,7 +17,6 @@ export const getGenres = async (accessToken: string) => {
   }
 
   const data = await response.json();
-
   return data.genres;
 };
 
@@ -25,7 +24,7 @@ export const getGenres = async (accessToken: string) => {
 export const getTracksByGenres = async (genres: string[], accessToken: string) => {
   const trackPromises = genres.map(async (genre) => {
     const response = await fetch(
-      `https://api.spotify.com/v1/search?q=genre:${genre}&type=track&limit=1`,
+      `https://api.spotify.com/v1/search?q=genre:${genre}&type=track&limit=10`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

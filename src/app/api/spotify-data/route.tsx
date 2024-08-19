@@ -17,7 +17,7 @@ export async function GET() {
   // create accesstoken
   const accessToken = session.accessToken;
 
-  // Function to shuffle genres (Fisher-Yates)
+  // Function to shuffle (Fisher-Yates)
   function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -32,13 +32,20 @@ export async function GET() {
 
     // shuffle genres
     const shuffledGenres = shuffleArray(genres);
+
     // slice out 6 genres
     const selectedGenres = shuffledGenres.slice(0, 6);
 
     // fetch 1 track from each of the 6 genres
     const tracks = await getTracksByGenres(selectedGenres, accessToken);
 
-    return NextResponse.json(tracks);
+    // shuffle songs
+    const shuffledTracks = shuffleArray(tracks);
+
+    // slice out 6 songs
+    const selectedTracks = shuffledTracks.slice(0, 6);
+
+    return NextResponse.json(selectedTracks);
   } catch (error) {
     console.error("Error fetching Spotify data:", error);
     if (error instanceof Error)
