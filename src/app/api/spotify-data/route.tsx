@@ -36,14 +36,18 @@ export async function GET() {
     // slice out 6 genres
     const selectedGenres = shuffledGenres.slice(0, 6);
 
-    // fetch 1 track from each of the 6 genres
-    const tracks = await getTracksByGenres(selectedGenres, accessToken);
+    // fetch 10 tracks from each of the 6 genres
+    const tracksByGenre = await getTracksByGenres(selectedGenres, accessToken);
 
-    // shuffle songs
-    const shuffledTracks = shuffleArray(tracks);
+    // select one random track from each genre
+    const selectedTracks = selectedGenres.map((genre) => {
+      // filter tracks for current genre
+      const tracksForGenre = tracksByGenre.filter((track) => track.genre === genre);
 
-    // slice out 6 songs
-    const selectedTracks = shuffledTracks.slice(0, 6);
+      // shuffle songs & select one track
+      const shuffledTracks = shuffleArray(tracksForGenre);
+      return shuffledTracks[0];
+    });
 
     return NextResponse.json(selectedTracks);
   } catch (error) {
