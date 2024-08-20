@@ -11,7 +11,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="max-w-[1400px] mt-0 ml-auto mr-auto">
+    <main className="max-w-[1400px] mt-0 ">
       <Login />
     </main>
   );

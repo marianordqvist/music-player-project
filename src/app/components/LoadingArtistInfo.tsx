@@ -21,9 +21,9 @@ function LoadingArtistInfo() {
             <div className="row bg-zinc-100 h-4 rounded-lg"></div>
             <div className="row bg-zinc-100 h-4 rounded-lg"></div>
             <div className="row bg-zinc-100 h-4 rounded-lg"></div>
-            <div className="row bg-zinc-100 h-4 w-2/3 rounded-lg"></div>
+            <div className="row bg-zinc-100 h-4 w-2/3 rounded-lg mb-10 "></div>
           </div>
-          <div className="text bg-zinc-200 h-52 flex-grow-[4] rounded-lg"></div>
+          <div className="text bg-zinc-200 h-52 flex-grow-[4] mb-10 rounded-lg"></div>
         </div>
       </div>
     </>

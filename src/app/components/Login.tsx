@@ -9,9 +9,11 @@ export default function login() {
         await signIn("spotify", { redirectTo: "/dashboard" });
       }}
     >
-      <button className="bg-zinc-300 p-3 rounded-2xl m-10" type="submit">
-        Sign in with Spotify
-      </button>
+      <div className="flex justify-center h-screen">
+        <button className="bg-zinc-300 h-16 p-4 mt-40 rounded-2xl" type="submit">
+          Sign in with Spotify
+        </button>
+      </div>
     </form>
   );
 }

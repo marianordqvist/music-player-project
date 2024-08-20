@@ -58,8 +58,8 @@ const AudioPlayer = () => {
 
   return (
     <>
-      <div className="audioPlayer flex justify-center">
-        <div className="px-40 w-1/2 max-w-[750px] bg-slate-200 p-5 rounded-md flex justify-center gap-3">
+      <div className="audioPlayer flex justify-center my-14">
+        <div className="px-40 mx-10 sm:w-full lg:w-2/3 xl:w-1/3 max-w-[1200px] bg-slate-200 p-5 rounded-full flex justify-center gap-3">
           <AudioButtons />
           {/* <p>Current track: {currentTrack?.title || "no track selected"}</p> */}
           <audio ref={audioPlayerRef} />

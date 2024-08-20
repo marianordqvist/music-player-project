@@ -19,10 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="bg-zinc-100 h-screen">
-          <Header />
-          <ReduxProvider>{children}</ReduxProvider>
-        </div>
+        <Header />
+        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   );

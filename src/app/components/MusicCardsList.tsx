@@ -32,7 +32,13 @@ const MusicCardList = () => {
 
   return (
     <>
-      <div className="music-card-list max-w-[1100px] mx-auto">
+      <DefaultButton
+        description="refetch-button"
+        icon={<RxReload />}
+        bgColor="bg-slate-200 mx-auto"
+        clickFunction={handleButtonClick}
+      />
+      <div className="music-card-list max-w-[1100px] mx-auto mt-20">
         <div className="flex flex-wrap justify-center">
           {cards.map((card) => {
             const cardId = nanoid();
@@ -49,13 +55,6 @@ const MusicCardList = () => {
           })}
         </div>
       </div>
-
-      <DefaultButton
-        description="refetch-button"
-        icon={<RxReload />}
-        bgColor="bg-pink-50"
-        clickFunction={handleButtonClick}
-      />
     </>
   );
 };
