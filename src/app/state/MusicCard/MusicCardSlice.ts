@@ -19,7 +19,6 @@ export const fetchCardInfo = createAsyncThunk(
   async () => {
     const response = await fetch("/api/spotify-data");
     const data = await response.json();
-
     return data;
   }
 );

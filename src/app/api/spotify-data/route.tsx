@@ -48,7 +48,7 @@ export async function GET() {
       const shuffledTracks = shuffleArray(tracksForGenre);
       return shuffledTracks[0];
     });
-
+    
     return NextResponse.json(selectedTracks);
   } catch (error) {
     console.error("Error fetching Spotify data:", error);

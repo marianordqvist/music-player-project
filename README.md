@@ -12,6 +12,7 @@ This is a site to help discover new music and artists. It will let users log in 
 - Ghost
 - Tailwind
 - Next-auth
+- Spotify Web API
 
 ## Project links
 

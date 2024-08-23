@@ -1,10 +1,10 @@
 export interface CardComponentInterface {
   key: string;
-  cardId: string;
   image?: string;
   songName: string;
   artist: string;
   genre: string;
+  onPlay: () => void;
 }
 
 // api types for card
@@ -25,4 +25,6 @@ export interface ApiCardInterface {
   name: string;
   artists: Artist[];
   genre: string;
+  uri: string;
+  id: string;
 }

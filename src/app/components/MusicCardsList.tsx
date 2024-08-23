@@ -7,6 +7,7 @@ import MusicCard from "../components/MusicCard";
 import { RxReload } from "react-icons/rx";
 import DefaultButton from "./DefaultButton";
 import LoadingMusicCards from "./LoadingMusicCards";
+import { playTrackThunk, setTrackUri } from "../state/MusicPlayer/MusicPlayerSlice";
 
 const MusicCardList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,6 +31,11 @@ const MusicCardList = () => {
     return <div> Error: {error}</div>;
   }
 
+  const handlePlayTrack = (trackUri: string) => {
+    // dispatch(setTrackUri(trackUri));
+    dispatch(playTrackThunk(trackUri));
+  };
+
   return (
     <>
       <DefaultButton
@@ -41,15 +47,14 @@ const MusicCardList = () => {
       <div className="music-card-list max-w-[1100px] mx-auto mt-20">
         <div className="flex flex-wrap justify-center">
           {cards.map((card) => {
-            const cardId = nanoid();
             return (
               <MusicCard
-                key={cardId}
-                cardId={cardId}
+                key={card.id}
                 image={card.album?.images?.[1].url}
                 songName={card.name}
                 artist={card.artists[0].name}
                 genre={card.genre}
+                onPlay={() => handlePlayTrack(card.uri)}
               />
             );
           })}
