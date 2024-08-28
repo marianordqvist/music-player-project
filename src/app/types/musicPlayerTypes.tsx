@@ -13,15 +13,31 @@ export interface MusicPlayerInterface {
     | "pending"
     | "success"
     | "rejected";
-  device_id: void;
-  uris: void;
+  device_id: string;
+  uris: string;
   error: string | null;
   isActive: boolean;
-  player: null;
+  playingTrack: {
+    name: string;
+  };
 }
 
-export interface MusicPlayerApiInterface {
-  device_id: void;
+interface SpotifyPlaybackState {
+  position: number;
+  duration: number;
+  paused: boolean;
+  track: {
+    uri: string;
+    name: string;
+    artists: Array<{ name: string }>;
+    album: { name: string };
+    // ... other track properties
+  };
+  context: {
+    uri: string;
+    type: string;
+  };
+  // ... other properties
 }
 
 declare global {

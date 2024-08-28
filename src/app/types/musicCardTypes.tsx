@@ -5,6 +5,7 @@ export interface CardComponentInterface {
   artist: string;
   genre: string;
   onPlay: () => void;
+  cardId: string;
 }
 
 // api types for card

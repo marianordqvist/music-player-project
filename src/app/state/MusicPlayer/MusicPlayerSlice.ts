@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MusicPlayerInterface } from "../../types/musicPlayerTypes";
-import { playTrack, transferPlayback } from "@/_lib/SpotifyService";
 
 const initialState: MusicPlayerInterface = {
   device_id: "",
@@ -9,7 +8,7 @@ const initialState: MusicPlayerInterface = {
   error: null,
   volume: 0.5,
   isActive: false,
-  playingTrack: null,
+  playingTrack: { name: "" },
 };
 
 // thunk to transfer and start play
@@ -27,12 +26,8 @@ export const startPlayback = createAsyncThunk(
 
       const data = await response.json();
 
-      return (
-        data.playingTrack +
-        console.log("playingTracK returned: " + data.playingtrack)
-      );
+      return data.playingTrack;
     } catch (error) {
-      // Handle errors here if needed
       throw error;
     }
   }
@@ -44,7 +39,6 @@ const musicPlayerSlice = createSlice({
   reducers: {
     setDeviceId: (state, action: PayloadAction) => {
       state.device_id = action.payload;
-      // Device id works here
     },
     setIsActive(state, action) {
       state.isActive = action.payload;
