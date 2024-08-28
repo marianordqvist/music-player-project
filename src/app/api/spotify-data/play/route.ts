@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "../../../../../authconfig";
 import { NextResponse } from "next/server";
-import { playTrack, transferPlayback } from "@/_lib/SpotifyService";
+import { playTrack } from "@/_lib/SpotifyService";
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -42,10 +42,7 @@ export async function PUT(request: Request) {
   }
 
   try {
-    // Transfer playback to the given device
-    // await transferPlayback(accessToken, device_id);
-
-    //play specified track
+    //transfer and play specified track on given device
     const playingTrack = await playTrack(accessToken, uris, device_id);
     return NextResponse.json(playingTrack);
   } catch (error) {

@@ -2,10 +2,13 @@
 import { CiPlay1, CiPause1, CiVolumeHigh, CiVolumeMute } from "react-icons/ci";
 import LoadSpotifySDK from "./LoadSpotifySDK";
 import { useSelector } from "react-redux";
+import { MusicPlayerInterface } from "../types/musicPlayerTypes";
 
 export default function MusicPlayer() {
-  const isActive = useSelector((state) => state.isActive);
-  const playingTrack = useSelector((state) => state.playingTrack);
+  const isActive = useSelector((state: MusicPlayerInterface) => state.isActive);
+  const playingTrack = useSelector(
+    (state: MusicPlayerInterface) => state.playingTrack
+  );
 
   LoadSpotifySDK();
 
@@ -16,7 +19,7 @@ export default function MusicPlayer() {
     return (
       <>
         <p>Currently playing</p>
-        <p>{playingTrack?.name}</p>
+        <p>song: {playingTrack?.name}</p>
         {/* <div className="now-playing__artist">{currentTrack?.artists[0].name}</div> */}
         {/* <button
           onClick={() => {

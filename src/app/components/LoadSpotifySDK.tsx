@@ -1,17 +1,16 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDeviceId, setIsActive } from "../state/MusicPlayer/MusicPlayerSlice";
-import { MusicPlayerApiInterface } from "../types/musicPlayerTypes";
 import { useEffect } from "react";
+import { MusicPlayerInterface } from "../types/musicPlayerTypes";
 
 function LoadSpotifySDK() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadSDK() {
-      // Fetch the token from server
+      // Fetch the token from server to authenticate
       const response = await fetch("/api/spotify-data/play");
       const { token } = await response.json();
-
       if (!token) return null;
 
       //Load the Spotify Web Playback SDK
@@ -24,44 +23,42 @@ function LoadSpotifySDK() {
       window.onSpotifyWebPlaybackSDKReady = () => {
         const player = new window.Spotify.Player({
           name: "Web Playback SDK",
-          getOauthToken: (cb) => {
+          getOauthToken: (cb: Function) => {
             cb(token);
           },
           volume: 0.5,
         });
 
-        // Player event listeners - TODO REDUX!
-        player.addListener("ready", ({ device_id }: MusicPlayerApiInterface) => {
+        // Player event listeners
+        player.addListener("ready", ({ device_id }: MusicPlayerInterface) => {
           dispatch(setDeviceId(device_id));
-          console.log("ready with device_iD: ", device_id);
         });
 
-        player.addListener("not_ready", ({ device_id }: MusicPlayerApiInterface) => {
-          console.log("Device ID has gone offline: ", device_id);
+        player.addListener("not_ready", ({ device_id }: MusicPlayerInterface) => {
+          console.log("device ID has gone offline :" + device_id);
         });
 
-        player.getCurrentState().then((state) => {
+        player.getCurrentState().then((state: Object) => {
           if (!state) {
             dispatch(setIsActive(false));
-            console.error("User is not playing music through the Web Playback SDK");
           } else {
             dispatch(setIsActive(true));
           }
         });
 
-        player.connect().then((success) => {
-          if (success) {
-            console.log("The Web Playback SDK successfully connected to Spotify!");
-          }
-        });
+        player.connect();
       };
     }
     loadSDK();
 
     // Cleanup: Disconnect player and remove listeners when component unmounts
     // return () => {
-    //   if (player.disconnect()) {
+    //   if (player) {
     //     console.log("Web Playback SDK disconnected");
+    //     player.removeListener("ready");
+    //     player.removeListener("not_ready");
+    //     player.disconnect();
+    //     console.log("Event listeners removed");
     //   }
     // };
   }, [dispatch]);

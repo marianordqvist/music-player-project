@@ -79,24 +79,3 @@ export const playTrack = async (
 
   return response.json();
 };
-
-// // transfer playback to app
-// export const transferPlayback = async (accessToken: string, device_id: string) => {
-//   const response = await fetch(`${SPOTIFY_API_URL}/me/player`, {
-//     method: "PUT",
-//     headers: {
-//       authorization: `Bearer ${accessToken}`,
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       device_ids: [device_id],
-//       play: true, // Automatically start playing after transfer
-//     }),
-//   });
-
-//   if (!response.ok) {
-//     throw new Error(`Failed to transfer playback (status ${response.status})`);
-//   }
-
-//   return response.json();
-// };

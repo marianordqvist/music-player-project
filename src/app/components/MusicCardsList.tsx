@@ -7,7 +7,6 @@ import MusicCard from "../components/MusicCard";
 import { RxReload } from "react-icons/rx";
 import DefaultButton from "./DefaultButton";
 import LoadingMusicCards from "./LoadingMusicCards";
-import { useEffect } from "react";
 
 const MusicCardList = () => {
   const dispatch = useDispatch<AppDispatch>(); // extract states from Redux store
@@ -48,6 +47,7 @@ const MusicCardList = () => {
           {cards.map((card) => {
             return (
               <MusicCard
+                cardId={card.id}
                 key={card.id}
                 image={card.album?.images?.[1].url}
                 songName={card.name}
