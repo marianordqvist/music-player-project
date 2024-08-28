@@ -14,7 +14,7 @@ export interface MusicPlayerInterface {
     | "success"
     | "rejected";
   device_id: void;
-  trackUri: void;
+  uris: void;
   error: string | null;
   isActive: boolean;
   player: null;

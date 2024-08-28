@@ -30,8 +30,8 @@ const MusicCardList = () => {
     }
   };
 
-  const handlePlay = (trackUri: string) => {
-    dispatch(startPlayback({ trackUri, device_id })); // Attempt to start playback
+  const handlePlay = (uris: string) => {
+    dispatch(startPlayback({ uris, device_id })); // Attempt to start playback
   };
 
   return (

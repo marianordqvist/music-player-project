@@ -4,7 +4,7 @@ import { playTrack, transferPlayback } from "@/_lib/SpotifyService";
 
 const initialState: MusicPlayerInterface = {
   device_id: "",
-  trackUri: "",
+  uris: "",
   status: "idle",
   error: null,
   volume: 0.5,
@@ -15,14 +15,14 @@ const initialState: MusicPlayerInterface = {
 // thunk to transfer and start play
 export const startPlayback = createAsyncThunk(
   "musicPlayer/startPlayback",
-  async ({ trackUri, device_id }: { trackUri: string; device_id: string }) => {
+  async ({ uris, device_id }: { uris: string; device_id: string }) => {
     try {
       const response = await fetch("/api/spotify-data/play", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ trackUri, device_id }),
+        body: JSON.stringify({ uris, device_id }),
       });
 
       const data = await response.json();
