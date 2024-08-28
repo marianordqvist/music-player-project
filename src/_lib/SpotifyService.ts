@@ -15,7 +15,7 @@ export const getGenres = async (accessToken: string) => {
   );
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch genres`);
+    throw new Error(`Failed to fetch genres.  (status: ${response.status})`);
   }
 
   const data = await response.json();
@@ -55,8 +55,7 @@ export const getTracksByGenres = async (genres: string[], accessToken: string) =
   return tracksArrays.flat();
 };
 
-// Spotify play fetch
-
+// Fetch song to play
 export const playTrack = async (accessToken: string, trackUri: string) => {
   const response = await fetch(`${SPOTIFY_API_URL}/me/player/play`, {
     method: "PUT",
@@ -71,5 +70,26 @@ export const playTrack = async (accessToken: string, trackUri: string) => {
     throw new Error(`Failed to play track (status ${response.status})`);
   }
 
-  return response.json;
+  return response.json();
+};
+
+// transfer playback to app
+export const transferPlayback = async (accessToken: string, device_id: string) => {
+  const response = await fetch(`${SPOTIFY_API_URL}/me/player`, {
+    method: "PUT",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      device_ids: [device_id],
+      play: true, // Automatically start playing after transfer
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to transfer playback (status ${response.status})`);
+  }
+
+  return response.json();
 };

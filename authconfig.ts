@@ -1,10 +1,10 @@
-import NextAuth, { type User } from "next-auth";
+import NextAuth from "next-auth";
 import spotify from "next-auth/providers/spotify";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     spotify({
-      authorization: `https://accounts.spotify.com/authorize?scope=user-modify-playback-state+&response_type=code`,
+      authorization: `https://accounts.spotify.com/authorize?scope=streaming+user-read-email+user-read-private&response_type=code`,
     }),
   ],
   pages: { signIn: "/" },

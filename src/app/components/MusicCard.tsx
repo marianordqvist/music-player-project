@@ -20,12 +20,7 @@ const MusicCard: React.FC<CardComponentInterface> = ({
       >
         {playVisible ? (
           <button onClick={onPlay}>
-            <FaCirclePlay
-              size="35"
-              color="white"
-              className="absolute"
-              // onClick={onPlay}
-            />
+            <FaCirclePlay size="35" color="white" className="absolute" />
           </button>
         ) : null}
         <img

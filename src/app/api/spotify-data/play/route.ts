@@ -1,7 +1,23 @@
 "use server";
 import { auth } from "../../../../../authconfig";
 import { NextResponse } from "next/server";
-import { playTrack } from "@/_lib/SpotifyService";
+import { playTrack, transferPlayback } from "@/_lib/SpotifyService";
+
+export async function GET(request: Request) {
+  const session = await auth();
+
+  if (!session || !session.accessToken) {
+    return NextResponse.json(
+      { error: "Unauthorized to play songs" },
+      { status: 401 }
+    );
+  }
+
+  const token = session.accessToken;
+
+  // Send the token in the response body
+  return NextResponse.json({ token });
+}
 
 export async function PUT(request: Request) {
   const session = await auth();
@@ -13,17 +29,23 @@ export async function PUT(request: Request) {
     );
   }
 
-  // create accesstoken
   const accessToken = session.accessToken;
 
-  //   create trackUri
-  const trackUri = await request.json();
+  // parse request body
+  const { trackUri, device_id } = await request.json();
 
-  if (!trackUri) {
-    return NextResponse.json({ error: "No trackUri provided" }, { status: 400 });
+  if (!trackUri || !device_id) {
+    return NextResponse.json(
+      { error: "trackUri and device_id must be provided" },
+      { status: 400 }
+    );
   }
 
   try {
+    // Transfer playback to the given device
+    await transferPlayback(accessToken, device_id);
+
+    //play specified track
     const playingTrack = await playTrack(accessToken, trackUri);
     return NextResponse.json(playingTrack);
   } catch (error) {

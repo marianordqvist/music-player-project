@@ -1,15 +1,32 @@
-export interface TrackInterface {
-  title: string;
-  imageUrl: string;
-}
+// export interface TrackInterface {
+//   title: string;
+//   imageUrl: string;
+// }
 
 export interface MusicPlayerInterface {
-  isPlaying: boolean;
-  currentTrack?: TrackInterface;
   volume: number;
-  trackUri: string | null;
-  status: "idle" | "pending" | "succeeded" | "rejected";
-  // currentTime: number;
-  // volume: number;
-  // isMuted: boolean;
+  status:
+    | "idle"
+    | "playing"
+    | "paused"
+    | "error"
+    | "pending"
+    | "success"
+    | "rejected";
+  device_id: void;
+  trackUri: void;
+  error: string | null;
+  isActive: boolean;
+  player: null;
+}
+
+export interface MusicPlayerApiInterface {
+  device_id: void;
+}
+
+declare global {
+  interface Window {
+    onSpotifyWebPlaybackSDKReady: any;
+    Spotify: any;
+  }
 }

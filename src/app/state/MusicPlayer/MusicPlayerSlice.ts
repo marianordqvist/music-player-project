@@ -1,34 +1,39 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MusicPlayerInterface } from "../../types/musicPlayerTypes";
+import { playTrack, transferPlayback } from "@/_lib/SpotifyService";
 
 const initialState: MusicPlayerInterface = {
-  isPlaying: false,
-  volume: 0.5,
+  device_id: "",
   trackUri: "",
   status: "idle",
-  // currentTime: 0,
+  error: null,
+  volume: 0.5,
+  isActive: false,
+  playingTrack: null,
 };
 
-export const playTrackThunk = createAsyncThunk(
-  "player/playtrack",
-  async (trackUri: string, { rejectWithValue }) => {
+// thunk to transfer and start play
+export const startPlayback = createAsyncThunk(
+  "musicPlayer/startPlayback",
+  async ({ trackUri, device_id }: { trackUri: string; device_id: string }) => {
     try {
       const response = await fetch("/api/spotify-data/play", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ trackUri }),
+        body: JSON.stringify({ trackUri, device_id }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json(); // Assuming the server returns JSON error messages
-        return rejectWithValue(errorData);
-      }
+      const data = await response.json();
 
-      return response.json();
+      return (
+        data.playingTrack +
+        console.log("playingTracK returned: " + data.playingtrack)
+      );
     } catch (error) {
-      return rejectWithValue(error.message);
+      // Handle errors here if needed
+      throw error;
     }
   }
 );
@@ -37,34 +42,34 @@ const musicPlayerSlice = createSlice({
   name: "MusicPlayer",
   initialState,
   reducers: {
-    setIsPlaying: (state, action: PayloadAction<boolean>) => {
-      console.log("Play action dispatched");
-      state.isPlaying = action.payload;
+    setDeviceId: (state, action: PayloadAction) => {
+      state.device_id = action.payload;
+      // Device id works here
     },
-    // setVolume: (state, action: PayloadAction<number>) => {
-    //   console.log("volume action dispatched");
-    //   state.volume = action.payload;
-    // },
-    setTrackUri: (state, action: PayloadAction<string>) => {
-      state.trackUri = action.payload;
+    setIsActive(state, action) {
+      state.isActive = action.payload;
+    },
+    setPlayingTrack: (state, action) => {
+      state.playingTrack = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(playTrackThunk.pending, (state) => {
+      .addCase(startPlayback.pending, (state) => {
         state.status = "pending";
+        state.error = null;
       })
-      .addCase(playTrackThunk.fulfilled, (state) => {
-        state.status = "succeeded";
-        state.isPlaying = true;
+      .addCase(startPlayback.fulfilled, (state, action) => {
+        state.status = "playing";
+        state.playingTrack = action.payload;
       })
-      .addCase(playTrackThunk.rejected, (state, action) => {
-        state.status = "rejected";
-        state.isPlaying = false;
-        console.error("error playing track: ", action.payload);
+      .addCase(startPlayback.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { setIsPlaying, setTrackUri } = musicPlayerSlice.actions;
+export const { setDeviceId, setIsActive, setPlayingTrack } =
+  musicPlayerSlice.actions;
 export default musicPlayerSlice.reducer;
