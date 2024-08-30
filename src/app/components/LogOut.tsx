@@ -10,7 +10,7 @@ const LogOut = () => {
         await signOut({ redirectTo: "/" });
       }}
     >
-      <button type="submit" className="bg-zinc-300 p-2 rounded-full">
+      <button type="submit" className="bg-zinc-800 p-2 rounded-full">
         <IoIosLogOut size="24" />
       </button>
     </form>
