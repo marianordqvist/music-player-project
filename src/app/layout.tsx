@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Open_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./utils/ReduxProvider";
 import Header from "./components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const open = Open_Sans({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-open",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={jakarta.className}>
         <Header />
         <ReduxProvider>{children}</ReduxProvider>
       </body>

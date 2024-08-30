@@ -14,7 +14,7 @@ const MusicCard: React.FC<CardComponentInterface> = ({
   return (
     <>
       <div
-        className={`${cardId} music-card mb-5 p-1 bg-white mr-5 inline-block rounded-md`}
+        className={`${cardId} music-card mb-5 p-1 text-zinc-100 bg-zinc-800 mr-5 inline-block rounded-md`}
         onMouseEnter={() => setPlayVisible(true)}
         onMouseLeave={() => setPlayVisible(false)}
       >
@@ -33,7 +33,7 @@ const MusicCard: React.FC<CardComponentInterface> = ({
           {songName}
         </h2>
         <h3 className="music-card-artist pl-3 ">{artist}</h3>
-        <h4 className="music-card-genre pl-3 text-sm font-light">{genre}</h4>
+        <h4 className="music-card-genre pl-3 text-sm font-light pb-5">{genre}</h4>
       </div>
     </>
   );

@@ -1,19 +1,28 @@
 import React from "react";
-import { signIn } from "../../../authconfig";
+import { signIn, auth } from "../../../authconfig";
+import { redirect } from "next/navigation";
 
-export default function login() {
+export default async function login() {
+  // if user is already logged in, they should be redirected to dashboard
+  const session = await auth();
+  if (session) {
+    redirect("/dashboard");
+  }
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signIn("spotify", { redirectTo: "/dashboard" });
-      }}
-    >
-      <div className="flex justify-center h-screen">
-        <button className="bg-zinc-300 h-16 p-4 mt-40 rounded-2xl" type="submit">
+    <>
+      <form
+        action={async () => {
+          "use server";
+          await signIn("spotify", { redirectTo: "/dashboard" });
+        }}
+      >
+        <button
+          className="bg-orange-300 h-16 p-4 text-black rounded-xl font-bold"
+          type="submit"
+        >
           Sign in with Spotify
         </button>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }

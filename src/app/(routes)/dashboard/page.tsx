@@ -10,13 +10,13 @@ async function Greeting() {
 
   const userName = session.user.name || "";
 
-  return <div className="mb-5">Hello {userName}!</div>;
+  return <div className="mb-5 text-zinc-100">Hello {userName}!</div>;
 }
 
 export default async function Dashboard() {
   return (
     <>
-      <div className="bg-zinc-100">
+      <div className="bg-zinc-900">
         <div className="mx-5">
           <Greeting />
           <MusicCardList />

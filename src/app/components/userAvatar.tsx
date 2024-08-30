@@ -5,7 +5,7 @@ export default async function UserAvatar() {
 
   if (!session || !session.user)
     return (
-      <div className="bg-zinc-400 inline-block w-10 h-10 p-3 rounded-full text-white "></div>
+      <div className="bg-zinc-800 inline-block w-10 h-10 p-3 rounded-full "></div>
     );
 
   const userImage = session.user.image || "";
