@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  current,
+} from "@reduxjs/toolkit";
 import { MusicPlayerInterface } from "../../types/musicPlayerTypes";
 
 const initialState: MusicPlayerInterface = {
@@ -25,8 +30,28 @@ export const startPlayback = createAsyncThunk(
       });
 
       const data = await response.json();
-
       return data.playingTrack;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// thunk to pause playback
+export const pausePlayback = createAsyncThunk(
+  "musicPlayer/pausePlayback",
+  async (device_id: { device_id: string }) => {
+    try {
+      const response = await fetch("/api/spotify-data/pause", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ device_id }),
+      });
+      console.log("device id in pause playback: " + device_id);
+      const data = await response.json();
+      return data;
     } catch (error) {
       throw error;
     }
@@ -38,12 +63,14 @@ const musicPlayerSlice = createSlice({
   initialState,
   reducers: {
     setDeviceId: (state, action: PayloadAction) => {
+      console.log("device id i musicPlayerSlice " + state.device_id);
       state.device_id = action.payload;
     },
     setIsActive(state, action) {
       state.isActive = action.payload;
     },
     setPlayingTrack: (state, action) => {
+      console.log("state playingtack i slice: " + current(state.playingTrack));
       state.playingTrack = action.payload;
     },
   },

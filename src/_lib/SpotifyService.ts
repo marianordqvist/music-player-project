@@ -79,3 +79,23 @@ export const playTrack = async (
 
   return response.json();
 };
+
+// Pause song
+export const pauseTrack = async (accessToken: string, device_id: string) => {
+  const response = await fetch(
+    `${SPOTIFY_API_URL}/me/player/pause?device_id=${device_id}`,
+    {
+      method: "PUT",
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to play track (status ${response.status})`);
+  }
+
+  return response.json();
+};
