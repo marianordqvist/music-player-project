@@ -1,6 +1,5 @@
 import { CardComponentInterface } from "../types/musicCardTypes";
 import { FaCirclePlay } from "react-icons/fa6";
-import { useState } from "react";
 
 const MusicCard: React.FC<CardComponentInterface> = ({
   cardId,
@@ -10,19 +9,17 @@ const MusicCard: React.FC<CardComponentInterface> = ({
   genre,
   onPlay,
 }) => {
-  const [playVisible, setPlayVisible] = useState(false);
   return (
     <>
       <div
-        className={`${cardId} music-card mb-5 p-1 text-zinc-100 bg-zinc-800 mr-5 inline-block rounded-md`}
-        onMouseEnter={() => setPlayVisible(true)}
-        onMouseLeave={() => setPlayVisible(false)}
+        className={`${cardId} group relative music-card mb-5 p-1 text-zinc-100 bg-zinc-800 mr-5 inline-block rounded-md`}
       >
-        {playVisible ? (
-          <button onClick={onPlay}>
-            <FaCirclePlay size="35" color="white" className="absolute" />
-          </button>
-        ) : null}
+        <button
+          onClick={onPlay}
+          className="absolute top-2 left-2 hidden group-hover:block"
+        >
+          <FaCirclePlay size="35" color="white" className="absolute" />
+        </button>
         <img
           src={image}
           alt={songName}

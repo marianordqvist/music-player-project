@@ -26,7 +26,11 @@ export const fetchCardInfo = createAsyncThunk(
 const musicCardSlice = createSlice({
   name: "cards",
   initialState,
-  reducers: {},
+  reducers: {
+    resetCardStatus: (state) => {
+      state.status = "idle";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCardInfo.pending, (state) => {
@@ -46,4 +50,5 @@ const musicCardSlice = createSlice({
   },
 });
 
+export const { resetCardStatus } = musicCardSlice.actions;
 export default musicCardSlice.reducer;

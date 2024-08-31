@@ -1,16 +1,24 @@
 "use client";
+import { pausePlayback } from "../state/MusicPlayer/MusicPlayerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../state/store";
 import { CiPlay1, CiPause1, CiVolumeHigh, CiVolumeMute } from "react-icons/ci";
 import LoadSpotifySDK from "./LoadSpotifySDK";
-import { useSelector } from "react-redux";
 import { MusicPlayerInterface } from "../types/musicPlayerTypes";
 
 export default function MusicPlayer() {
+  const dispatch = useDispatch<AppDispatch>();
   const isActive = useSelector((state: MusicPlayerInterface) => state.isActive);
   const playingTrack = useSelector(
     (state: MusicPlayerInterface) => state.playingTrack
   );
+  const device_id = useSelector((state: RootState) => state.MusicPlayer.device_id);
 
   LoadSpotifySDK();
+
+  const handlePause = () => {
+    dispatch(pausePlayback(device_id));
+  };
 
   // Render conditions
   if (isActive === false) {
@@ -20,6 +28,12 @@ export default function MusicPlayer() {
       <>
         <p>Currently playing</p>
         <p>song: {playingTrack?.name}</p>
+        {/* {console.log("playingTrack i musicplayer component: " + playingTrack)} */}
+
+        <button className="p-2" onClick={handlePause}>
+          <CiPause1 size={20} />
+        </button>
+
         {/* <div className="now-playing__artist">{currentTrack?.artists[0].name}</div> */}
         {/* <button
           onClick={() => {
