@@ -49,7 +49,6 @@ export const pausePlayback = createAsyncThunk(
         },
         body: JSON.stringify({ device_id }),
       });
-      console.log("device id in pause playback: " + device_id);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -63,14 +62,12 @@ const musicPlayerSlice = createSlice({
   initialState,
   reducers: {
     setDeviceId: (state, action: PayloadAction) => {
-      console.log("device id i musicPlayerSlice " + state.device_id);
       state.device_id = action.payload;
     },
     setIsActive(state, action) {
       state.isActive = action.payload;
     },
     setPlayingTrack: (state, action) => {
-      console.log("state playingtack i slice: " + current(state.playingTrack));
       state.playingTrack = action.payload;
     },
   },

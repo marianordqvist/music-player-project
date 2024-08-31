@@ -34,9 +34,7 @@ function LoadSpotifySDK() {
           dispatch(setDeviceId(device_id));
         });
 
-        player.addListener("not_ready", ({ device_id }: MusicPlayerInterface) => {
-          console.log("device ID has gone offline :" + device_id);
-        });
+        player.addListener("not_ready", ({ device_id }: MusicPlayerInterface) => {});
 
         player.getCurrentState().then((state: Object) => {
           if (!state) {

@@ -16,7 +16,6 @@ export async function PUT(request: Request) {
 
   // parse request body
   const { device_id } = await request.json();
-  console.log("device_id in route:" + device_id);
 
   if (!device_id) {
     return NextResponse.json(
