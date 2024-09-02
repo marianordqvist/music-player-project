@@ -14,7 +14,6 @@ function GetMusicCards() {
       dispatch(fetchCardInfo());
     }
   };
-
   return { fetchCards, cardStatus, cards, error };
 }
 

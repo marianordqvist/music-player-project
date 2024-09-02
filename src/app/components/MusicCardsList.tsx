@@ -8,50 +8,77 @@ import DefaultButton from "./DefaultButton";
 import GetMusicCards from "./GetMusicCards";
 import { useState } from "react";
 import LoadingMusicCards from "./LoadingMusicCards";
+import { useEffect } from "react";
 
 const MusicCardList = () => {
   const dispatch = useDispatch<AppDispatch>(); // extract states from Redux store
   const { fetchCards, cardStatus, cards, error } = GetMusicCards();
   const device_id = useSelector((state: RootState) => state.MusicPlayer.device_id);
+  const [shouldAttemptPlay, setShouldAttemptPlay] = useState(false);
+  const [shouldAttemptFetchCards, setShouldAttemptFetchCards] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
+  const [uris, setUris] = useState("");
 
   // fetch music cards
   const handleButtonClick = () => {
-    fetchCards();
-    setHasFetched(true); // To trigger rendering after button click
+    setShouldAttemptFetchCards(true);
   };
 
-  // Attempt to start playback
+  useEffect(() => {
+    if (shouldAttemptFetchCards) {
+      fetchCards();
+      setHasFetched(true);
+      setShouldAttemptFetchCards(false);
+    }
+  }, [shouldAttemptFetchCards]);
+
+  // Start playback
   const handlePlay = (uris: string) => {
-    dispatch(startPlayback({ uris, device_id }));
+    setShouldAttemptPlay(true);
+    setUris(uris);
   };
 
-  return (
-    <>
-      <DefaultButton
-        description="refetch-button"
-        icon={<RxReload />}
-        bgColor="bg-slate-200 mx-auto"
-        clickFunction={handleButtonClick}
-      />
-      {hasFetched && (
+  useEffect(() => {
+    if (shouldAttemptPlay) {
+      dispatch(startPlayback({ uris: uris, device_id }));
+      setShouldAttemptPlay(false);
+    }
+  }, [shouldAttemptPlay]);
+
+  const MapCards = () => {
+    if (cards)
+      return (
         <>
-          {cardStatus === "pending" && <LoadingMusicCards />}
-          {cardStatus === "succeeded" && (
-            <div>
-              {cards.map((card) => (
+          <ul>
+            {cards?.map((card) => (
+              <li key={card.id}>
                 <MusicCard
                   cardId={card.id}
-                  key={card.id}
                   image={card.album?.images?.[1].url}
                   songName={card.name}
                   artist={card.artists[0].name}
                   genre={card.genre}
                   onPlay={() => handlePlay(card.uri)}
                 />
-              ))}
-            </div>
-          )}
+              </li>
+            ))}
+          </ul>
+        </>
+      );
+  };
+
+  return (
+    <>
+      <DefaultButton
+        description="refetch-cards-button"
+        icon={<RxReload />}
+        bgColor="bg-slate-200 mx-auto block"
+        clickFunction={handleButtonClick}
+      />
+      {hasFetched && (
+        <>
+          {cardStatus === "pending" && <LoadingMusicCards />}
+          {cardStatus === "succeeded" && MapCards()}
           {cardStatus === "rejected" && <div>Error: {error}</div>}
         </>
       )}

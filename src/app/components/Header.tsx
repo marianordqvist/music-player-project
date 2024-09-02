@@ -11,13 +11,14 @@ const borel = Borel({
 
 export default function Header() {
   return (
-    <header className="bg-zinc-950 shadow-md ">
+    <header className="bg-zinc-950 shadow-lg z-40">
       <div className="p-5 flex row text-gray-500 justify-between items-center max-w-[1000px] mx-auto">
-        <div
-          className={`${borel.variable} font-sans italic text-emerald-400 text-4xl font-borel mt-5`}
+        <a
+          href="/"
+          className={`${borel.variable} font-sans italic cursor-pointer text-emerald-400 text-4xl font-borel mt-5`}
         >
-          tune in
-        </div>
+          tune.in
+        </a>
         <div>
           <nav className="flex row items-center font-extrabold gap-3 text-zinc-100">
             <a href="/" className="">

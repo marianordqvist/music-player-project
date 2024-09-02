@@ -7,7 +7,7 @@ import {
   MoveDirection,
   OutMode,
 } from "@tsparticles/engine";
-import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+import { loadSlim } from "@tsparticles/slim";
 
 export default function BackgroundAnimation() {
   const [init, setInit] = useState(false);
@@ -16,7 +16,6 @@ export default function BackgroundAnimation() {
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
-      //await loadBasic(engine);
     }).then(() => {
       setInit(true);
     });
@@ -53,10 +52,10 @@ export default function BackgroundAnimation() {
       },
       particles: {
         color: {
-          value: "#ffffff",
+          value: "#71717a",
         },
         links: {
-          color: "#000000",
+          color: "#18181b",
           distance: 150,
           enable: true,
           opacity: 0.5,
@@ -76,7 +75,7 @@ export default function BackgroundAnimation() {
           density: {
             enable: true,
           },
-          value: 40,
+          value: 150,
         },
         opacity: {
           value: 0.5,
@@ -85,7 +84,7 @@ export default function BackgroundAnimation() {
           type: "circle",
         },
         size: {
-          value: { min: 1, max: 2.5 },
+          value: { min: 1, max: 2 },
         },
       },
       detectRetina: true,

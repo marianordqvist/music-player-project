@@ -1,5 +1,4 @@
 export interface CardComponentInterface {
-  key: string;
   image?: string;
   songName: string;
   artist: string;

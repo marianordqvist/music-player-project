@@ -1,6 +1,5 @@
 import MusicCardList from "@/app/components/MusicCardsList";
 import { auth } from "../../../../authconfig";
-import LoadingArtistInfo from "@/app/components/LoadingArtistInfo";
 import MusicPlayer from "@/app/components/MusicPlayer";
 
 async function Greeting() {
@@ -21,7 +20,7 @@ export default async function Dashboard() {
           <Greeting />
           <MusicCardList />
           <MusicPlayer />
-          <LoadingArtistInfo />
+          {/* <LoadingArtistInfo /> */}
         </div>
       </div>
     </>
