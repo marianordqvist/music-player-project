@@ -18,13 +18,13 @@ export default async function Home() {
               </h2>
               <Login />
             </div>
-{/* 
-            <Image
+
+            {/* <Image
               src={image}
               alt="image of cards with different songs"
               className="opacity-50 w-2/4 h-full"
-            />
-          </div> */}
+            /> */}
+          </div>
         </div>
       </div>
 
