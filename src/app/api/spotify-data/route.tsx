@@ -33,22 +33,40 @@ export async function GET() {
     // shuffle genres
     const shuffledGenres = shuffleArray(genres);
 
-    // slice out 6 genres
-    const selectedGenres = shuffledGenres.slice(0, 6);
+    const selectedTracks = [];
+    const requiredSelectedTracks = 6;
 
-    // fetch 10 tracks from each of the 6 genres
-    const tracksByGenre = await getTracksByGenres(selectedGenres, accessToken);
+    while (
+      selectedTracks.length < requiredSelectedTracks &&
+      shuffledGenres.length > 0
+    ) {
+      // create a new array which contains the first element of shuffledGenres
+      const currentGenre = shuffledGenres.shift();
 
-    // select one random track from each genre
-    const selectedTracks = selectedGenres.map((genre) => {
-      // filter tracks for current genre
-      const tracksForGenre = tracksByGenre.filter((track) => track.genre === genre);
+      // fetches a new song for that genre
+      const tracksByGenre = await getTracksByGenres([currentGenre], accessToken);
 
-      // shuffle songs & select one track
-      const shuffledTracks = shuffleArray(tracksForGenre);
-      return shuffledTracks[0];
-    });
+      // filter tracks for current genre (to be able to display genre on the card)
+      const tracksForGenre = tracksByGenre.filter(
+        (track) => track.genre === currentGenre
+      );
 
+      if (tracksForGenre.length > 0) {
+        // shuffle songs and select one track
+        const shuffledTracks = shuffleArray(tracksForGenre);
+        // add first track to selectedTracksArray
+        selectedTracks.push(shuffledTracks[0]);
+      } else {
+        console.warn(`No tracks found for genre: ${currentGenre}`);
+      }
+    }
+
+    // check if we ended up with fewer than required tracks and handle it
+    if (selectedTracks.length < requiredSelectedTracks) {
+      console.error(`only ${selectedTracks.length} tracks could be found`);
+    }
+
+    console.log("final selected tracks: " + selectedTracks);
     return NextResponse.json(selectedTracks);
   } catch (error) {
     console.error("Error fetching Spotify data:", error);
