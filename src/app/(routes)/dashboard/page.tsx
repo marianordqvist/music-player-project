@@ -1,6 +1,7 @@
 import MusicCardList from "@/app/components/MusicCardsList";
 import { auth } from "../../../../authconfig";
 import MusicPlayer from "@/app/components/MusicPlayer";
+import ArtistInfo from "@/app/components/ArtistInfo";
 
 async function Greeting() {
   const session = await auth();
@@ -20,7 +21,7 @@ export default async function Dashboard() {
           <Greeting />
           <MusicCardList />
           <MusicPlayer />
-          {/* <LoadingArtistInfo /> */}
+          <ArtistInfo />
         </div>
       </div>
     </>

@@ -3,7 +3,7 @@ import React from "react";
 function LoadingArtistInfo() {
   return (
     <>
-      <div className="wrapper ArtistInfo Skeleton bg-white p-5 sm:w-3/4 md:w-1/2 mx-auto rounded-lg mb-10 ">
+      <div className="wrapper ArtistInfo Skeleton animate-pulse bg-white p-5 sm:w-3/4 md:w-3/5 mx-auto rounded-lg mb-10 ">
         <div className="upper-row flex flex-row flex-wrap gap-3 mb-5">
           <div className="headline bg-zinc-200 w-full h-7 my-2 rounded-lg"></div>
           <div className="image bg-zinc-400 h-52 flex-grow-[4] rounded-lg"></div>

@@ -36,13 +36,10 @@ const musicCardSlice = createSlice({
       .addCase(fetchCardInfo.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(
-        fetchCardInfo.fulfilled,
-        (state, action: PayloadAction<ApiCardInterface[]>) => {
-          state.status = "succeeded";
-          state.cards = action.payload;
-        }
-      )
+      .addCase(fetchCardInfo.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.cards = action.payload;
+      })
       .addCase(fetchCardInfo.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.error.message ?? "failed to fetch cards";

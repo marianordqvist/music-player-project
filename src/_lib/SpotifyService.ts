@@ -94,7 +94,24 @@ export const pauseTrack = async (accessToken: string, device_id: string) => {
   );
 
   if (!response.ok) {
-    throw new Error(`Failed to play track (status ${response.status})`);
+    throw new Error(`Failed to pause track (status ${response.status})`);
+  }
+
+  return response.json();
+};
+
+// Get artist info
+export const getArtistInfo = async (accessToken: string, artistId: string) => {
+  const response = await fetch(`${SPOTIFY_API_URL}/artists/${artistId}`, {
+    method: "GET",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch artist info (status ${response.status})`);
   }
 
   return response.json();
