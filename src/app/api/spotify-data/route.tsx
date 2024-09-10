@@ -4,7 +4,7 @@ import { auth } from "../../../../authconfig";
 import { getGenres, getTracksByGenres } from "../../../_lib/SpotifyService";
 
 export async function GET() {
-  // Check session and extract accessToken
+  // Authenticate
   const session = await auth();
 
   if (!session || !session.accessToken) {
@@ -36,6 +36,7 @@ export async function GET() {
     const selectedTracks = [];
     const requiredSelectedTracks = 6;
 
+    // if selectedTracks is not 6, and shuffledGenres have run
     while (
       selectedTracks.length < requiredSelectedTracks &&
       shuffledGenres.length > 0
@@ -46,27 +47,24 @@ export async function GET() {
       // fetches a new song for that genre
       const tracksByGenre = await getTracksByGenres([currentGenre], accessToken);
 
-      // filter tracks for current genre (to be able to display genre on the card)
+      // filter tracks for current genre
       const tracksForGenre = tracksByGenre.filter(
         (track) => track.genre === currentGenre
       );
 
       if (tracksForGenre.length > 0) {
-        // shuffle songs and select one track
         const shuffledTracks = shuffleArray(tracksForGenre);
-        // add first track to selectedTracksArray
         selectedTracks.push(shuffledTracks[0]);
       } else {
         console.warn(`No tracks found for genre: ${currentGenre}`);
       }
     }
 
-    // check if we ended up with fewer than required tracks and handle it
+    // check if we ended up with fewer than required tracks
     if (selectedTracks.length < requiredSelectedTracks) {
       console.error(`only ${selectedTracks.length} tracks could be found`);
     }
 
-    console.log("final selected tracks: " + selectedTracks);
     return NextResponse.json(selectedTracks);
   } catch (error) {
     console.error("Error fetching Spotify data:", error);
