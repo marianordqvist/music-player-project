@@ -17,27 +17,9 @@ export interface MusicPlayerInterface {
   uris: string;
   error: string | null;
   isActive: boolean;
-  playingTrack: {
-    name: string;
-  };
-}
-
-interface SpotifyPlaybackState {
-  position: number;
-  duration: number;
-  paused: boolean;
-  track: {
-    uri: string;
-    name: string;
-    artists: Array<{ name: string }>;
-    album: { name: string };
-    // ... other track properties
-  };
-  context: {
-    uri: string;
-    type: string;
-  };
-  // ... other properties
+  isPaused: boolean;
+  track: string;
+  artist: string;
 }
 
 declare global {
@@ -45,4 +27,15 @@ declare global {
     onSpotifyWebPlaybackSDKReady: any;
     Spotify: any;
   }
+}
+
+export interface SpotifySDKInterface {
+  device_id: string;
+  paused: boolean;
+  track_window: {
+    current_track: {
+      name: string;
+      artists: { name: string }[];
+    };
+  };
 }

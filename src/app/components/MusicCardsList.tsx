@@ -1,19 +1,18 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "../state/store";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useState, useEffect } from "react";
 import { startPlayback } from "../state/MusicPlayer/MusicPlayerSlice";
-import MusicCard from "../components/MusicCard";
+import { setArtistId } from "../state/ArtistInfo/ArtistInfoSlice";
 import { RxReload } from "react-icons/rx";
+import MusicCard from "./MusicCard";
 import DefaultButton from "./DefaultButton";
 import GetMusicCards from "./GetMusicCards";
-import { useState } from "react";
 import LoadingMusicCards from "./LoadingMusicCards";
-import { useEffect } from "react";
 
 const MusicCardList = () => {
-  const dispatch = useDispatch<AppDispatch>(); // extract states from Redux store
-  const { fetchCards, cardStatus, cards, error } = GetMusicCards();
-  const device_id = useSelector((state: RootState) => state.MusicPlayer.device_id);
+  const dispatch = useAppDispatch(); // extract states from Redux store
+  const { fetchCards, cardStatus, cards } = GetMusicCards();
+  const device_id = useAppSelector((state) => state.MusicPlayer.device_id);
   const [shouldAttemptPlay, setShouldAttemptPlay] = useState(false);
   const [shouldAttemptFetchCards, setShouldAttemptFetchCards] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
@@ -33,9 +32,10 @@ const MusicCardList = () => {
   }, [shouldAttemptFetchCards]);
 
   // Start playback
-  const handlePlay = (uris: string) => {
+  const handlePlay = (uris: string, artistId: string) => {
     setShouldAttemptPlay(true);
     setUris(uris);
+    dispatch(setArtistId(artistId));
   };
 
   useEffect(() => {
@@ -46,11 +46,11 @@ const MusicCardList = () => {
   }, [shouldAttemptPlay]);
 
   const MapCards = () => {
-    if (cards)
+    if (cards) {
       return (
         <>
-          <ul>
-            {cards?.map((card) => (
+          <ul className="flex flex-row flex-wrap mx-auto justify-center mt-28 max-w-[1100px]">
+            {cards.map((card) => (
               <li key={card.id}>
                 <MusicCard
                   cardId={card.id}
@@ -58,30 +58,30 @@ const MusicCardList = () => {
                   songName={card.name}
                   artist={card.artists[0].name}
                   genre={card.genre}
-                  onPlay={() => handlePlay(card.uri)}
+                  onPlay={() => handlePlay(card.uri, card.artists?.[0].id)}
                 />
               </li>
             ))}
           </ul>
         </>
       );
+    }
   };
 
   return (
     <>
-      <DefaultButton
-        description="refetch-cards-button"
-        icon={<RxReload />}
-        bgColor="bg-slate-200 mx-auto block"
-        clickFunction={handleButtonClick}
-      />
-      {hasFetched && (
-        <>
-          {cardStatus === "pending" && <LoadingMusicCards />}
-          {cardStatus === "succeeded" && MapCards()}
-          {cardStatus === "rejected" && <div>Error: {error}</div>}
-        </>
-      )}
+      <div className={`musicCardsList-wrapper ${cards ? "" : "h - screen"} `}>
+        <DefaultButton
+          description="refetch-cards-button"
+          icon={<RxReload />}
+          bgColor="bg-slate-200 mx-auto block"
+          clickFunction={handleButtonClick}
+        />
+
+        {cardStatus === "pending" && <LoadingMusicCards />}
+        {cardStatus === "succeeded" && MapCards()}
+        {cardStatus === "rejected" && <div className="">Cannot load cards</div>}
+      </div>
     </>
   );
 };

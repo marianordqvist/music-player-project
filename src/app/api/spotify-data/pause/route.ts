@@ -25,9 +25,8 @@ export async function PUT(request: Request) {
   }
 
   try {
-    //transfer and play specified track on given device
+    //toggle play and pause track
     const pausedTrack = await pauseTrack(accessToken, device_id);
-    // console.log("returned from playingTrack: " + playingTrack);
     return NextResponse.json(pausedTrack);
   } catch (error) {
     console.error("Error Spotify Play: " + error);

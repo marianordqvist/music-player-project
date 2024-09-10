@@ -1,12 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../state/store";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchCardInfo, resetCardStatus } from "../state/MusicCard/MusicCardSlice";
 
 function GetMusicCards() {
-  const dispatch = useDispatch<AppDispatch>(); // extract states from Redux store
-  const cardStatus = useSelector((state) => state.MusicCard.status);
-  const error = useSelector((state) => state.MusicCard.error);
-  const cards = useSelector((state) => state.MusicCard.cards);
+  const dispatch = useAppDispatch(); // extract states from Redux store
+  const cardStatus = useAppSelector((state) => state.MusicCard.status);
+  const error = useAppSelector((state) => state.MusicCard.error);
+  const cards = useAppSelector((state) => state.MusicCard.cards);
 
   const fetchCards = () => {
     if (cardStatus !== "pending") {

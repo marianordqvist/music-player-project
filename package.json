@@ -13,6 +13,8 @@
     "@tsparticles/engine": "^3.5.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
+    "contentful": "^10.15.0",
+    "contentful-management": "^11.33.0",
     "next": "^14.2.7",
     "next-auth": "^5.0.0-beta.20",
     "react": "^18",

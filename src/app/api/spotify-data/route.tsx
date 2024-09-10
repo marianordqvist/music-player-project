@@ -4,7 +4,7 @@ import { auth } from "../../../../authconfig";
 import { getGenres, getTracksByGenres } from "../../../_lib/SpotifyService";
 
 export async function GET() {
-  // Check session and extract accessToken
+  // Authenticate
   const session = await auth();
 
   if (!session || !session.accessToken) {
@@ -33,21 +33,37 @@ export async function GET() {
     // shuffle genres
     const shuffledGenres = shuffleArray(genres);
 
-    // slice out 6 genres
-    const selectedGenres = shuffledGenres.slice(0, 6);
+    const selectedTracks = [];
+    const requiredSelectedTracks = 6;
 
-    // fetch 10 tracks from each of the 6 genres
-    const tracksByGenre = await getTracksByGenres(selectedGenres, accessToken);
+    // if selectedTracks is not 6, and shuffledGenres have run
+    while (
+      selectedTracks.length < requiredSelectedTracks &&
+      shuffledGenres.length > 0
+    ) {
+      // create a new array which contains the first element of shuffledGenres
+      const currentGenre = shuffledGenres.shift();
 
-    // select one random track from each genre
-    const selectedTracks = selectedGenres.map((genre) => {
+      // fetches a new song for that genre
+      const tracksByGenre = await getTracksByGenres([currentGenre], accessToken);
+
       // filter tracks for current genre
-      const tracksForGenre = tracksByGenre.filter((track) => track.genre === genre);
+      const tracksForGenre = tracksByGenre.filter(
+        (track) => track.genre === currentGenre
+      );
 
-      // shuffle songs & select one track
-      const shuffledTracks = shuffleArray(tracksForGenre);
-      return shuffledTracks[0];
-    });
+      if (tracksForGenre.length > 0) {
+        const shuffledTracks = shuffleArray(tracksForGenre);
+        selectedTracks.push(shuffledTracks[0]);
+      } else {
+        console.warn(`No tracks found for genre: ${currentGenre}`);
+      }
+    }
+
+    // check if we ended up with fewer than required tracks
+    if (selectedTracks.length < requiredSelectedTracks) {
+      console.error(`only ${selectedTracks.length} tracks could be found`);
+    }
 
     return NextResponse.json(selectedTracks);
   } catch (error) {

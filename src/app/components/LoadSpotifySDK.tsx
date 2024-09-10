@@ -1,10 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setDeviceId, setIsActive } from "../state/MusicPlayer/MusicPlayerSlice";
+import { useAppDispatch } from "../hooks/hooks";
+import {
+  setDeviceId,
+  setActive,
+  setTrack,
+  setArtist,
+  setPaused,
+} from "../state/MusicPlayer/MusicPlayerSlice";
 import { useEffect } from "react";
-import { MusicPlayerInterface } from "../types/musicPlayerTypes";
+import { SpotifySDKInterface } from "../types/musicPlayerTypes";
 
 function LoadSpotifySDK() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function loadSDK() {
@@ -30,35 +36,56 @@ function LoadSpotifySDK() {
         });
 
         // Player event listeners
-        player.addListener("ready", ({ device_id }: MusicPlayerInterface) => {
+        player.addListener("ready", ({ device_id }: { device_id: string }) => {
           dispatch(setDeviceId(device_id));
         });
 
-        player.addListener("not_ready", ({ device_id }: MusicPlayerInterface) => {});
+        player.addListener(
+          "not_ready",
+          ({ device_id }: { device_id: string }) => {}
+        );
 
-        player.getCurrentState().then((state: Object) => {
-          if (!state) {
-            dispatch(setIsActive(false));
-          } else {
-            dispatch(setIsActive(true));
+        player.addListener(
+          "player_state_changed",
+          (state: SpotifySDKInterface | null) => {
+            if (!state) {
+              return;
+            }
+
+            // Dispatch track info and paused state when the player state changes
+            dispatch(setTrack(state.track_window.current_track.name));
+            dispatch(setArtist(state.track_window.current_track.artists[0].name));
+            // dispatch(setPaused(state.paused));
+
+            // Assume the player is active whenever player_state_changed is fired
+            dispatch(setActive(true));
+            dispatch(setPaused(state.paused));
+
+            // Optionally use getCurrentState for further checks
+            player.getCurrentState().then((state: SpotifySDKInterface) => {
+              if (!state) {
+                // Only set to inactive if getCurrentState consistently returns null
+                dispatch(setActive(false));
+              }
+            });
           }
-        });
+        );
+
+        player.setName("Tune.in Player").then(() => {});
 
         player.connect();
+
+        // Cleanup: Disconnect player and remove listeners when component unmounts
+        return () => {
+          if (player) {
+            player.removeListener("ready");
+            player.removeListener("not_ready");
+            player.disconnect();
+          }
+        };
       };
     }
     loadSDK();
-
-    // Cleanup: Disconnect player and remove listeners when component unmounts
-    // return () => {
-    //   if (player) {
-    //     console.log("Web Playback SDK disconnected");
-    //     player.removeListener("ready");
-    //     player.removeListener("not_ready");
-    //     player.disconnect();
-    //     console.log("Event listeners removed");
-    //   }
-    // };
   }, [dispatch]);
 
   return null;
