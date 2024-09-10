@@ -1,9 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-  current,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MusicPlayerInterface } from "../../types/musicPlayerTypes";
 
 const initialState: MusicPlayerInterface = {
@@ -13,7 +8,9 @@ const initialState: MusicPlayerInterface = {
   error: null,
   volume: 0.5,
   isActive: false,
-  playingTrack: { name: "" },
+  isPaused: true,
+  track: "",
+  artist: "",
 };
 
 // thunk to transfer and start play
@@ -61,14 +58,20 @@ const musicPlayerSlice = createSlice({
   name: "MusicPlayer",
   initialState,
   reducers: {
-    setDeviceId: (state, action: PayloadAction) => {
+    setDeviceId: (state, action: PayloadAction<string>) => {
       state.device_id = action.payload;
     },
-    setIsActive(state, action) {
+    setActive(state, action: PayloadAction<boolean>) {
       state.isActive = action.payload;
     },
-    setPlayingTrack: (state, action) => {
-      state.playingTrack = action.payload;
+    setPaused: (state, action: PayloadAction<boolean>) => {
+      state.isPaused = action.payload;
+    },
+    setTrack: (state, action: PayloadAction<string>) => {
+      state.track = action.payload;
+    },
+    setArtist: (state, action: PayloadAction<string>) => {
+      state.artist = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -77,17 +80,15 @@ const musicPlayerSlice = createSlice({
         state.status = "pending";
         state.error = null;
       })
-      .addCase(startPlayback.fulfilled, (state, action) => {
+      .addCase(startPlayback.fulfilled, (state) => {
         state.status = "playing";
-        state.playingTrack = action.payload;
       })
-      .addCase(startPlayback.rejected, (state, action) => {
+      .addCase(startPlayback.rejected, (state) => {
         state.status = "error";
-        state.error = action.payload as string;
       });
   },
 });
 
-export const { setDeviceId, setIsActive, setPlayingTrack } =
+export const { setDeviceId, setActive, setPaused, setTrack, setArtist } =
   musicPlayerSlice.actions;
 export default musicPlayerSlice.reducer;
