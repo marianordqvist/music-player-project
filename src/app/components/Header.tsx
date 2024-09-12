@@ -11,7 +11,7 @@ const borel = Borel({
 
 export default function Header() {
   return (
-    <header className="bg-zinc-950 shadow-lg z-40">
+    <header className="bg-zinc-900 bg-opacity-75 shadow-lg">
       <div className="p-5 flex row text-gray-500 justify-between items-center max-w-[1000px] mx-auto">
         <a
           href="/"

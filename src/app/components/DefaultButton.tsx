@@ -8,10 +8,7 @@ const DefaultButton: React.FC<DefaulButtonInterface> = ({
   description,
 }) => {
   return (
-    <button
-      onClick={clickFunction}
-      className={`${description} ${bgColor} p-2 rounded-lg`}
-    >
+    <button onClick={clickFunction} className={`${description} ${bgColor} p-2`}>
       {icon}
     </button>
   );

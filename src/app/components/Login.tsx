@@ -1,4 +1,3 @@
-import React from "react";
 import { signIn, auth } from "../../../authconfig";
 import { redirect } from "next/navigation";
 
@@ -17,10 +16,10 @@ export default async function login() {
         }}
       >
         <button
-          className="bg-orange-300 h-16 p-4 text-black rounded-xl font-bold"
+          className="bg-orange-300 text-sm text-nowrap xl:px-5 text-black font-bold p-2 w-full xl:text-base xl:py-3 rounded-xl"
           type="submit"
         >
-          Sign in with Spotify
+          Spotify sign in
         </button>
       </form>
     </>
