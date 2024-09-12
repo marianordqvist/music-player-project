@@ -23,7 +23,7 @@ export default function MusicPlayer() {
   if (isPaused) {
     return (
       <>
-        <div className="bg-emerald-300 bg-opacity-50 text-black m-auto w-1/3 rounded-full pl-10 text-center p-3 my-10">
+        <div className="bg-emerald-300 bg-opacity-50 text-black w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
           <p className="font-bold">
             Music player is not active - click a music card to start playing.
           </p>
@@ -33,14 +33,15 @@ export default function MusicPlayer() {
   } else {
     return (
       <>
-        <div className="bg-emerald-300 text-black m-auto w-1/3 rounded-full pl-10 text-center p-3 my-10">
-          <div className="flex flex-row">
-            <p className="mb-3">{artist ? artist : ""} - </p>
-            <p className="font-bold"> {track ? track : "No track playing"}</p>
-            <button onClick={() => handlePlayAndPause()}>
-              {isPaused ? <CiPlay1 size={20} /> : <CiPause1 size={20} />}
-            </button>{" "}
+        <div className="bg-emerald-300 text-black w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
+          <div className="flex flex-row justify-center gap-5 w-full box-border overflow-hidden whitespace-nowrap">
+            <p className="mb-3 inline-block transition duration-300 translate-x-full">
+              {artist ? artist : ""} - {track ? track : ""}
+            </p>
           </div>
+          <button onClick={() => handlePlayAndPause()}>
+            {isPaused ? <CiPlay1 size={20} /> : <CiPause1 size={20} />}
+          </button>
         </div>
       </>
     );

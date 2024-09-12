@@ -12,13 +12,13 @@ const MusicCard = ({
   return (
     <>
       <div
-        className={`music-card ${cardId} group relative music-card w-[258px] mb-5 p-1 text-zinc-100 bg-zinc-800 mr-5 inline-block rounded-md`}
+        className={`music-card ${cardId} group hover:scale-105 duration-500 ease-in-out relative music-card w-[258px] mb-5 p-1 text-zinc-100 bg-zinc-800 mr-5 inline-block rounded-md`}
       >
         <button
           onClick={() => onPlay()}
-          className="absolute top-2 left-2 hidden group-hover:block"
+          className="absolute top-24 ml-24 hidden group-hover:block"
         >
-          <FaCirclePlay size="35" color="white" className="absolute" />
+          <FaCirclePlay size="55" color="white" className="absolute" />
         </button>
         <img
           src={image}
