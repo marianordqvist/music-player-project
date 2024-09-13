@@ -57,7 +57,7 @@ function ImagesLoopBig() {
         alt="Image of music cards, every two seconds the cards change to other songs"
         width={550}
         height={300}
-        className={`${animation} object-cover w-full h-auto opacity-75`}
+        className={`${animation} object-cover w-full h-auto`}
       />
     </div>
   );
@@ -84,7 +84,7 @@ function ImagesLoopMid() {
         alt="Image of music cards, every two seconds the cards change to other songs"
         width={769}
         height={1045}
-        className={`${animation} w-full h-auto opacity-75`}
+        className={`${animation} w-full h-auto`}
       />
     </div>
   );
