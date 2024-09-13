@@ -32,18 +32,20 @@ export async function PUT(request: Request) {
   const accessToken = session.accessToken;
 
   // parse request body
-  const { uris, device_id } = await request.json();
+  const { uris, device_id, position_ms } = await request.json();
+
+  console.log(position_ms);
 
   if (!uris || !device_id) {
     return NextResponse.json(
-      { error: "uris and device_id must be provided" },
+      { error: "uris, device_id and position_ms must be provided" },
       { status: 400 }
     );
   }
 
   try {
     //transfer and play specified track on given device
-    const playingTrack = await playTrack(accessToken, uris, device_id);
+    const playingTrack = await playTrack(accessToken, uris, device_id, position_ms);
     return NextResponse.json(playingTrack);
   } catch (error) {
     console.error("Error Spotify Play: " + error);

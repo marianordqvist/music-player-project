@@ -59,7 +59,8 @@ export const getTracksByGenres = async (genres: string[], accessToken: string) =
 export const playTrack = async (
   accessToken: string,
   uris: string,
-  device_id: string
+  device_id: string,
+  position_ms: number
 ) => {
   const response = await fetch(
     `${SPOTIFY_API_URL}/me/player/play?device_id=${device_id}`,
@@ -69,7 +70,7 @@ export const playTrack = async (
         authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ uris: [uris] }),
+      body: JSON.stringify({ uris: [uris], position_ms: position_ms }),
     }
   );
 
@@ -95,6 +96,30 @@ export const pauseTrack = async (accessToken: string, device_id: string) => {
 
   if (!response.ok) {
     throw new Error(`Failed to pause track (status ${response.status})`);
+  }
+
+  return response.json();
+};
+
+// set track volume
+export const setPlaybackVolume = async (
+  accessToken: string,
+  device_id: string,
+  volume: number
+) => {
+  const response = await fetch(
+    `${SPOTIFY_API_URL}/me/player/volume?volume_percent=${volume}?device_id=${device_id}`,
+    {
+      method: "PUT",
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to change volume (status ${response.status})`);
   }
 
   return response.json();

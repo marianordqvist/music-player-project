@@ -28,6 +28,15 @@ const config: Config = {
         sans: ["var(--font-borel)"],
         jakarta: ["var(--font-jakarta"],
       },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(45%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 40s linear infinite",
+      },
     },
   },
 

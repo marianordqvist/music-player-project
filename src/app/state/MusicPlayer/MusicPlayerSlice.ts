@@ -11,19 +11,29 @@ const initialState: MusicPlayerInterface = {
   isPaused: true,
   track: "",
   artist: "",
+  duration: 0,
+  position: 0,
 };
 
 // thunk to transfer and start play
 export const startPlayback = createAsyncThunk(
   "musicPlayer/startPlayback",
-  async ({ uris, device_id }: { uris: string; device_id: string }) => {
+  async ({
+    uris,
+    device_id,
+    position_ms,
+  }: {
+    uris: string;
+    device_id: string;
+    position_ms: number;
+  }) => {
     try {
       const response = await fetch("/api/spotify-data/play", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ uris, device_id }),
+        body: JSON.stringify({ uris, device_id, position_ms }),
       });
 
       const data = await response.json();
@@ -54,6 +64,26 @@ export const pausePlayback = createAsyncThunk(
   }
 );
 
+// thunk to handle playback volume
+export const setPlaybackVolume = createAsyncThunk(
+  "musicPlayer/setPlaybackVolume",
+  async ({ device_id, volume }: { device_id: string; volume: number }) => {
+    try {
+      const response = await fetch("/api/spotify-data/volume", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ device_id, volume }),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const musicPlayerSlice = createSlice({
   name: "MusicPlayer",
   initialState,
@@ -73,6 +103,15 @@ const musicPlayerSlice = createSlice({
     setArtist: (state, action: PayloadAction<string>) => {
       state.artist = action.payload;
     },
+    setDuration: (state, action: PayloadAction<number>) => {
+      state.duration = action.payload;
+    },
+    setPosition: (state, action: PayloadAction<number>) => {
+      state.position = action.payload;
+    },
+    setVolume: (state, action: PayloadAction<number>) => {
+      state.volume = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -89,6 +128,14 @@ const musicPlayerSlice = createSlice({
   },
 });
 
-export const { setDeviceId, setActive, setPaused, setTrack, setArtist } =
-  musicPlayerSlice.actions;
+export const {
+  setDeviceId,
+  setActive,
+  setPaused,
+  setTrack,
+  setArtist,
+  setDuration,
+  setPosition,
+  setVolume,
+} = musicPlayerSlice.actions;
 export default musicPlayerSlice.reducer;

@@ -1,4 +1,4 @@
-import { pauseTrack } from "@/_lib/SpotifyService";
+import { setPlaybackVolume } from "@/_lib/SpotifyService";
 import { auth } from "../../../../../authconfig";
 import { NextResponse } from "next/server";
 
@@ -15,19 +15,18 @@ export async function PUT(request: Request) {
   const accessToken = session.accessToken;
 
   // parse request body
-  const { device_id } = await request.json();
+  const { device_id, volume } = await request.json();
 
-  if (!device_id) {
+  if (!device_id || !volume) {
     return NextResponse.json(
-      { error: "device_id must be provided" },
+      { error: "device_id and volume must be provided" },
       { status: 400 }
     );
   }
 
   try {
-    //pause track
-    const pausedTrack = await pauseTrack(accessToken, device_id);
-    return NextResponse.json(pausedTrack);
+    const newVolume = await setPlaybackVolume(accessToken, device_id, volume);
+    return NextResponse.json(newVolume);
   } catch (error) {
     console.error("Error Spotify Play: " + error);
     if (error instanceof Error)

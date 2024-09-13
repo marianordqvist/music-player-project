@@ -20,6 +20,8 @@ export interface MusicPlayerInterface {
   isPaused: boolean;
   track: string;
   artist: string;
+  duration: number;
+  position: number;
 }
 
 declare global {
@@ -32,6 +34,8 @@ declare global {
 export interface SpotifySDKInterface {
   device_id: string;
   paused: boolean;
+  duration: number;
+  position: number;
   track_window: {
     current_track: {
       name: string;

@@ -5,12 +5,14 @@ interface MusicCardSliceInterface {
   cards: ApiCardInterface[];
   status: "idle" | "pending" | "succeeded" | "rejected";
   error: string | null;
+  uris: string;
 }
 
 const initialState: MusicCardSliceInterface = {
   cards: [],
   status: "idle",
   error: null,
+  uris: "",
 };
 
 // thunk to fetch card data
@@ -30,6 +32,9 @@ const musicCardSlice = createSlice({
     resetCardStatus: (state) => {
       state.status = "idle";
     },
+    setUris: (state, action: PayloadAction<string>) => {
+      state.uris = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -46,5 +51,5 @@ const musicCardSlice = createSlice({
   },
 });
 
-export const { resetCardStatus } = musicCardSlice.actions;
+export const { resetCardStatus, setUris } = musicCardSlice.actions;
 export default musicCardSlice.reducer;

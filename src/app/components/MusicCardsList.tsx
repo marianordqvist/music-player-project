@@ -1,8 +1,9 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useState, useEffect } from "react";
-import { startPlayback } from "../state/MusicPlayer/MusicPlayerSlice";
+import { setPosition, startPlayback } from "../state/MusicPlayer/MusicPlayerSlice";
 import { setArtistId } from "../state/ArtistInfo/ArtistInfoSlice";
+import { setUris } from "../state/MusicCard/MusicCardSlice";
 import { RxReload } from "react-icons/rx";
 import MusicCard from "./MusicCard";
 import DefaultButton from "./DefaultButton";
@@ -13,10 +14,12 @@ const MusicCardList = () => {
   const dispatch = useAppDispatch(); // extract states from Redux store
   const { fetchCards, cardStatus, cards } = GetMusicCards();
   const device_id = useAppSelector((state) => state.MusicPlayer.device_id);
+  const position_ms = useAppSelector((state) => state.MusicPlayer.position);
+  const uris = useAppSelector((state) => state.MusicCard.uris);
+
   const [shouldAttemptPlay, setShouldAttemptPlay] = useState(false);
   const [shouldAttemptFetchCards, setShouldAttemptFetchCards] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
-  const [uris, setUris] = useState("");
 
   // fetch music cards
   const handleButtonClick = () => {
@@ -34,13 +37,14 @@ const MusicCardList = () => {
   // Start playback
   const handlePlay = (uris: string, artistId: string) => {
     setShouldAttemptPlay(true);
-    setUris(uris);
+    dispatch(setUris(uris));
+    dispatch(setPosition(0));
     dispatch(setArtistId(artistId));
   };
 
   useEffect(() => {
     if (shouldAttemptPlay) {
-      dispatch(startPlayback({ uris: uris, device_id }));
+      dispatch(startPlayback({ uris, device_id, position_ms }));
       setShouldAttemptPlay(false);
     }
   }, [shouldAttemptPlay]);

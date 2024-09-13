@@ -5,12 +5,15 @@ import {
   setTrack,
   setArtist,
   setPaused,
+  setDuration,
+  setPosition,
 } from "../state/MusicPlayer/MusicPlayerSlice";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { SpotifySDKInterface } from "../types/musicPlayerTypes";
 
 function LoadSpotifySDK() {
   const dispatch = useAppDispatch();
+  const audioRef = useRef();
 
   useEffect(() => {
     async function loadSDK() {
@@ -52,14 +55,17 @@ function LoadSpotifySDK() {
               return;
             }
 
-            // Dispatch track info and paused state when the player state changes
-            dispatch(setTrack(state.track_window.current_track.name));
-            dispatch(setArtist(state.track_window.current_track.artists[0].name));
-            // dispatch(setPaused(state.paused));
+            // console.log(state);
 
             // Assume the player is active whenever player_state_changed is fired
             dispatch(setActive(true));
+
+            // Dispatch track info, paused state, song duration
+            dispatch(setTrack(state.track_window.current_track.name));
+            dispatch(setArtist(state.track_window.current_track.artists[0].name));
             dispatch(setPaused(state.paused));
+            dispatch(setDuration(state.duration)); //length of song
+            dispatch(setPosition(state.position)); //position in song on pause
 
             // Optionally use getCurrentState for further checks
             player.getCurrentState().then((state: SpotifySDKInterface) => {
