@@ -1,5 +1,6 @@
 import { client } from "@/_lib/ContentfulClient";
 import { NextRequest, NextResponse } from "next/server";
+import { Environment, Space, Entry } from "contentful-management";
 
 // update contentful entry
 export async function PUT(request: NextRequest) {
@@ -16,9 +17,13 @@ export async function PUT(request: NextRequest) {
     // Update Contentful entry with Spotify data
     const updateEntry = client
       .getSpace(process.env.CONTENTFUL_SPACE_ID)
-      .then((space) => space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT_ID))
-      .then((environment) => environment.getEntry(process.env.CONTENTFUL_ENTRY_ID))
-      .then((entry) => {
+      .then((space: Space) =>
+        space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT_ID as string)
+      )
+      .then((environment: Environment) =>
+        environment.getEntry(process.env.CONTENTFUL_ENTRY_ID as string)
+      )
+      .then((entry: Entry) => {
         entry.fields.artistname["en-US"] = artistInfo.name;
         entry.fields.followers["en-US"] = artistInfo.followers.total;
         entry.fields.popularity["en-US"] = artistInfo.popularity;
