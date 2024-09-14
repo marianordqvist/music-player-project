@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { fetchAndUpdateArtistInfo } from "../state/ArtistInfo/ArtistInfoSlice";
 import DisplayArtistInfo from "./DisplayArtistInfo";
@@ -13,11 +13,15 @@ export default function ArtistInfo() {
   const musicIsPaused = useAppSelector((state) => state.MusicPlayer.isPaused);
   const targetElementRef = useRef(null);
 
+  //memoizedDisplayArtistInfo
+  const MemoizedDisplayArtistInfo = useCallback(() => {
+    return <DisplayArtistInfo />;
+  }, []);
+
   useEffect(() => {
     if (musicIsPaused === false) {
       const observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          console.log("time to show artist info");
           setGettingArtistInfo(true);
           observer.disconnect();
         }
@@ -29,11 +33,7 @@ export default function ArtistInfo() {
 
       return () => observer.disconnect();
     }
-  }, [musicIsPaused === true, artistId, dispatch]);
-
-  // const getArtistInfo = () => {
-  //   setGettingArtistInfo(true);
-  // };
+  }, [musicIsPaused === false, artistId, dispatch]);
 
   useEffect(() => {
     if (gettingArtistInfo) {
@@ -44,10 +44,8 @@ export default function ArtistInfo() {
 
   return (
     <>
-      <p className="" ref={targetElementRef} id="target-element">
-        Keep scrolling to read more about this artist!
-      </p>
-      {artistDataStatus === "succeeded" && <DisplayArtistInfo />}
+      <div className="" ref={targetElementRef} id="target-element"></div>
+      {artistDataStatus === "succeeded" && <MemoizedDisplayArtistInfo />}
       {artistDataStatus === "pending" && <LoadingArtistInfo />}
       {artistDataStatus === "rejected" && <p>Unable to load artist data.</p>}
     </>

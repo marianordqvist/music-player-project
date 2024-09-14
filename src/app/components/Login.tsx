@@ -16,7 +16,7 @@ export default async function login() {
         }}
       >
         <button
-          className="bg-orange-300 text-sm text-nowrap xl:px-5 text-black font-bold p-2 w-full xl:text-base xl:py-3 rounded-xl"
+          className="bg-orange-300 text-sm p-4 text-nowrap xl:px-5 text-black font-bold w-full xl:text-base xl:py-3 rounded-xl"
           type="submit"
         >
           Spotify sign in

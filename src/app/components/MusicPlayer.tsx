@@ -8,7 +8,7 @@ import {
   setPlaybackVolume,
 } from "../state/MusicPlayer/MusicPlayerSlice";
 import Slider from "./Slider";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 export default function MusicPlayer() {
   const dispatch = useAppDispatch();
@@ -24,7 +24,6 @@ export default function MusicPlayer() {
   const [startTime, setStartTime] = useState(0);
   const [volume, setVolume] = useState(50);
   const [volumeRangeVisibility, setVolumeRangeVisibility] = useState(false);
-  const [shouldPausePlayback, setShouldPausePlayback] = useState(false);
 
   LoadSpotifySDK();
 
@@ -36,13 +35,13 @@ export default function MusicPlayer() {
     dispatch(pausePlayback({ device_id }));
   };
 
-  const handleVolume = (newVolume) => {
+  const handleVolume = (newVolume: number) => {
     dispatch(setPlaybackVolume({ device_id, volume: newVolume }));
   };
 
   // Slider calculation
   useEffect(() => {
-    let intervalId;
+    let intervalId: NodeJS.Timeout;
 
     if (!isPaused && duration > 0) {
       setStartTime(Date.now());
@@ -59,15 +58,19 @@ export default function MusicPlayer() {
   }, [isPaused, duration, position_ms]);
 
   // debounce volume
-  function debounceFunction(fn, delay) {
-    let timeoutId;
+  function debounceFunction<T extends (...args: any[]) => any>(
+    fn: T,
+    delay: number
+  ): (...args: Parameters<T>) => void {
+    let timeoutId: NodeJS.Timeout | undefined;
 
-    return (...args) => {
+    return (...args: Parameters<T>) => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => fn(...args), delay);
     };
   }
 
+  // TODO useMemo for debounce
   const debouncedHandleVolume = useCallback(debounceFunction(handleVolume, 500), [
     device_id,
   ]);

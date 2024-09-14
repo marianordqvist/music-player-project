@@ -2,23 +2,13 @@ import MusicCardList from "@/app/components/MusicCardsList";
 import { auth } from "../../../../authconfig";
 import MusicPlayer from "@/app/components/MusicPlayer";
 import ArtistInfo from "@/app/components/ArtistInfo";
-
-async function Greeting() {
-  const session = await auth();
-
-  if (!session || !session.user) return null;
-
-  const userName = session.user.name || "";
-
-  return <div className="mb-5 text-zinc-100">Hello {userName}!</div>;
-}
+import LoadingMusicCards from "@/app/components/LoadingMusicCards";
 
 export default async function Dashboard() {
   return (
     <>
-      <div className="bg-zinc-900">
-        <div className="mx-5">
-          <Greeting />
+      <div className="bg-zinc-950">
+        <div className="mx-5 m-auto">
           <MusicCardList />
           <MusicPlayer />
           <ArtistInfo />

@@ -1,6 +1,8 @@
-import { useRef } from "react";
+interface SliderProps {
+  percentage: number;
+}
 
-function Slider({ percentage }) {
+function Slider({ percentage }: SliderProps) {
   // const rangeRef = useRef();
 
   return (
@@ -12,9 +14,9 @@ function Slider({ percentage }) {
       <div
         className="progress-bar-cover"
         style={{
-          width: `${percentage}%`, // Directly set the width to the percentage
-          height: "5px", // Example height
-          backgroundColor: "#6ee7b7", // Example color for the progress bar
+          width: `${percentage}%`,
+          height: "5px",
+          backgroundColor: "#6ee7b7",
           position: "absolute",
           top: "50%",
           transform: "translateY(-50%)",
@@ -27,12 +29,12 @@ function Slider({ percentage }) {
         className="thumb"
         style={{
           position: "absolute",
-          left: `${percentage}%`, // Set thumb's position to percentage
-          transform: "translateX(-50%) translateY(-50%)", // Center the thumb
-          width: "10px", // Example size
+          left: `${percentage}%`,
+          transform: "translateX(-50%) translateY(-50%)",
+          width: "10px",
           height: "10px",
-          backgroundColor: "#e4e4e7", // Example thumb color
-          borderRadius: "50%", // Make the thumb circular
+          backgroundColor: "#e4e4e7",
+          borderRadius: "50%",
           boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.753)",
         }}
       ></div>
@@ -48,8 +50,8 @@ function Slider({ percentage }) {
         style={{
           width: "100%",
           position: "relative",
-          zIndex: 1, // Ensure the input is above the progress bar
-          background: "transparent", // Hide the default range styling
+          zIndex: 1, 
+          background: "transparent", 
         }}
       /> */}
     </div>
