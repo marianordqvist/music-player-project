@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Image1 from "./../../../public/songs-dark-big.png";
-import Image2 from "./../../../public/songs-dark-big-2.png";
-import Image3 from "./../../../public/songs-dark-big-3.png";
-import Image1Mid from "./../../../public/songs-dark-small.png";
-import Image2Mid from "./../../../public/songs-dark-small-2.png";
-import Image3Mid from "./../../../public/songs-dark-small-3.png";
+import Image1 from "./../../../public/webp2/songs-dark-big.webp";
+import Image2 from "./../../../public/webp2/songs-dark-big-2.webp";
+import Image3 from "./../../../public/webp2/songs-dark-big-3.webp";
+import Image1Mid from "./../../../public/webp2/songs-dark-small.webp";
+import Image2Mid from "./../../../public/webp2/songs-dark-small-2.webp";
+import Image3Mid from "./../../../public/webp2/songs-dark-small-3.webp";
 
 export default function ImagesLoop() {
   const [screenSize, setScreenSize] = useState("md");
