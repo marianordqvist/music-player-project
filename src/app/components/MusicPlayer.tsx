@@ -93,13 +93,35 @@ export default function MusicPlayer() {
   // } else {
   return (
     <>
-      <div className=" bg-zinc-700 text-white w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
-        <div className="flex flex-row justify-center gap-5 w-2/5 mx-auto box-border overflow-hidden whitespace-nowrap mb-3">
-          <p className="mb-2 whitespace-nowrap animate-marquee">
-            {artist ? artist : "Player currently inactive"} -{" "}
-            {track ? track : "Click a card to start listening"}
-          </p>
+      <div className="bg-zinc-700 text-white w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
+        <div className="relative flex overflow-x-hidden w-2/3 m-auto">
+          <div className=" py-5 animate-marquee1 whitespace-nowrap">
+            <span className="mx-10">
+              {artist ? (
+                artist
+              ) : (
+                <p className="text-zinc-800 font-bold">
+                  Player is currently inactive. Click a card to start playing music.
+                </p>
+              )}
+            </span>
+            <span className="mx-10">{track ? track : ""}</span>
+          </div>
+
+          <div className="absolute top-0 py-5 animate-marquee2 whitespace-nowrap pr-10">
+            <span className="mx-10">
+              {artist ? (
+                artist
+              ) : (
+                <p className="text-zinc-800 font-bold">
+                  Player is currently inactive. Click a card to start playing music.
+                </p>
+              )}
+            </span>
+            <span className="mx-10">{track ? track : ""}</span>
+          </div>
         </div>
+
         <div className="slider-wrapper w-3/5 mx-auto mb-7">
           <Slider percentage={percentage} />
         </div>
@@ -132,4 +154,3 @@ export default function MusicPlayer() {
     </>
   );
 }
-// }

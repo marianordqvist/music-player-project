@@ -4,9 +4,7 @@ import { useState, useEffect } from "react";
 import { setPosition, startPlayback } from "../state/MusicPlayer/MusicPlayerSlice";
 import { setArtistId } from "../state/ArtistInfo/ArtistInfoSlice";
 import { setUris } from "../state/MusicCard/MusicCardSlice";
-import { RxReload } from "react-icons/rx";
 import MusicCard from "./MusicCard";
-import DefaultButton from "./DefaultButton";
 import GetMusicCards from "./GetMusicCards";
 import LoadingMusicCards from "./LoadingMusicCards";
 
@@ -21,18 +19,13 @@ const MusicCardList = () => {
   const [shouldAttemptFetchCards, setShouldAttemptFetchCards] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
 
-  // fetch music cards
-  const handleButtonClick = () => {
-    setShouldAttemptFetchCards(true);
-  };
-
   useEffect(() => {
-    if (shouldAttemptFetchCards) {
-      fetchCards();
-      setHasFetched(true);
-      setShouldAttemptFetchCards(false);
-    }
-  }, [shouldAttemptFetchCards]);
+    setHasFetched(false);
+    setShouldAttemptFetchCards(true);
+    fetchCards();
+    setHasFetched(true);
+    setShouldAttemptFetchCards(false);
+  }, []);
 
   // Start playback
   const handlePlay = (uris: string, artistId: string) => {
@@ -75,13 +68,6 @@ const MusicCardList = () => {
   return (
     <>
       <div className={`musicCardsList-wrapper ${cards ? "" : "h - screen"} `}>
-        <DefaultButton
-          description="refetch-cards-button"
-          icon={<RxReload />}
-          bgColor="bg-slate-200 mx-auto block"
-          clickFunction={handleButtonClick}
-        />
-
         {cardStatus === "pending" && <LoadingMusicCards />}
         {cardStatus === "succeeded" && MapCards()}
         {cardStatus === "rejected" && <div className="">Cannot load cards</div>}
