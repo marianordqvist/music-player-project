@@ -47,14 +47,13 @@ export const startPlayback = createAsyncThunk(
 // thunk to pause playback
 export const pausePlayback = createAsyncThunk(
   "musicPlayer/pausePlayback",
-  async (device_id: { device_id: string }) => {
+  async () => {
     try {
       const response = await fetch("/api/spotify-data/pause", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ device_id }),
       });
       const data = await response.json();
       return data;
@@ -67,14 +66,14 @@ export const pausePlayback = createAsyncThunk(
 // thunk to handle playback volume
 export const setPlaybackVolume = createAsyncThunk(
   "musicPlayer/setPlaybackVolume",
-  async ({ device_id, volume }: { device_id: string; volume: number }) => {
+  async ({ volume }: { volume: number }) => {
     try {
       const response = await fetch("/api/spotify-data/volume", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ device_id, volume }),
+        body: JSON.stringify({ volume }),
       });
       const data = await response.json();
       return data;

@@ -14,19 +14,9 @@ export async function PUT(request: Request) {
 
   const accessToken = session.accessToken;
 
-  // parse request body
-  const { device_id } = await request.json();
-
-  if (!device_id) {
-    return NextResponse.json(
-      { error: "device_id must be provided" },
-      { status: 400 }
-    );
-  }
-
   try {
     //pause track
-    const pausedTrack = await pauseTrack(accessToken, device_id);
+    const pausedTrack = await pauseTrack(accessToken);
     return NextResponse.json(pausedTrack);
   } catch (error) {
     console.error("Error Spotify Play: " + error);

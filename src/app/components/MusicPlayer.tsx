@@ -32,11 +32,11 @@ export default function MusicPlayer() {
   };
 
   const handlePause = () => {
-    dispatch(pausePlayback({ device_id }));
+    dispatch(pausePlayback());
   };
 
   const handleVolume = (newVolume: number) => {
-    dispatch(setPlaybackVolume({ device_id, volume: newVolume }));
+    dispatch(setPlaybackVolume({ volume: newVolume }));
   };
 
   // Slider calculation
@@ -75,50 +75,34 @@ export default function MusicPlayer() {
     device_id,
   ]);
 
-  // if (isPaused) {
-  //   return (
-  //     <>
-  //       <div className="bg-emerald-300 bg-opacity-50 text-black w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
-  //         <p className="font-bold mb-2">
-  //           Music player is not active - click a music card to start playing.
-  //         </p>
-  //         <div className="buttons flex flex-row gap-5 justify-center">
-  //           <CiPlay1 size={20} />
-  //           <CiPause1 size={20} />
-  //           <CiVolumeHigh size={20} />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // } else {
   return (
     <>
       <div className="bg-zinc-700 text-white w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
-        <div className="relative flex overflow-x-hidden w-2/3 m-auto">
-          <div className=" py-5 animate-marquee1 whitespace-nowrap">
-            <span className="mx-10">
+        <div className="relative mt-3 mb-5 flex overflow-x-hidden w-2/3 m-auto">
+          <div className="animate-marquee1 whitespace-nowrap">
+            <span className="">
               {artist ? (
-                artist
+                artist + " - "
               ) : (
-                <p className="text-zinc-800 font-bold">
-                  Player is currently inactive. Click a card to start playing music.
+                <p className="text-zinc-500 font-bold pr-10">
+                  Player is currently inactive. Click a card to start playing.
                 </p>
               )}
             </span>
-            <span className="mx-10">{track ? track : ""}</span>
+            <span className="mr-10">{track ? track : ""}</span>
           </div>
 
-          <div className="absolute top-0 py-5 animate-marquee2 whitespace-nowrap pr-10">
-            <span className="mx-10">
+          <div className="absolute top-0 animate-marquee2 whitespace-nowrap">
+            <span className="">
               {artist ? (
-                artist
+                artist + " - "
               ) : (
-                <p className="text-zinc-800 font-bold">
-                  Player is currently inactive. Click a card to start playing music.
+                <p className="text-zinc-500 font-bold pr-10">
+                  Player is currently inactive. Click a card to start playing.
                 </p>
               )}
             </span>
-            <span className="mx-10">{track ? track : ""}</span>
+            <span className="mr-10">{track ? track : ""}</span>
           </div>
         </div>
 

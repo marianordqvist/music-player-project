@@ -82,17 +82,14 @@ export const playTrack = async (
 };
 
 // Pause song
-export const pauseTrack = async (accessToken: string, device_id: string) => {
-  const response = await fetch(
-    `${SPOTIFY_API_URL}/me/player/pause?device_id=${device_id}`,
-    {
-      method: "PUT",
-      headers: {
-        authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+export const pauseTrack = async (accessToken: string) => {
+  const response = await fetch(`${SPOTIFY_API_URL}/me/player/pause?`, {
+    method: "PUT",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to pause track (status ${response.status})`);
@@ -102,13 +99,9 @@ export const pauseTrack = async (accessToken: string, device_id: string) => {
 };
 
 // set track volume
-export const setPlaybackVolume = async (
-  accessToken: string,
-  device_id: string,
-  volume: number
-) => {
+export const setPlaybackVolume = async (accessToken: string, volume: number) => {
   const response = await fetch(
-    `${SPOTIFY_API_URL}/me/player/volume?volume_percent=${volume}?device_id=${device_id}`,
+    `${SPOTIFY_API_URL}/me/player/volume?volume_percent=${volume}`,
     {
       method: "PUT",
       headers: {

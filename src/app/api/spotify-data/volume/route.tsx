@@ -15,9 +15,9 @@ export async function PUT(request: Request) {
   const accessToken = session.accessToken;
 
   // parse request body
-  const { device_id, volume } = await request.json();
+  const { volume } = await request.json();
 
-  if (!device_id || !volume) {
+  if (!volume) {
     return NextResponse.json(
       { error: "device_id and volume must be provided" },
       { status: 400 }
@@ -25,7 +25,7 @@ export async function PUT(request: Request) {
   }
 
   try {
-    const newVolume = await setPlaybackVolume(accessToken, device_id, volume);
+    const newVolume = await setPlaybackVolume(accessToken, volume);
     return NextResponse.json(newVolume);
   } catch (error) {
     console.error("Error Spotify Play: " + error);
