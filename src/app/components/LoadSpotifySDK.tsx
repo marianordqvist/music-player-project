@@ -61,12 +61,13 @@ function LoadSpotifySDK() {
             dispatch(setActive(true));
 
             // Dispatch track info, paused state, song duration
-            dispatch(setTrack(state.track_window.current_track.name));
-            dispatch(setArtist(state.track_window.current_track.artists[0].name));
-            dispatch(setPaused(state.paused));
-            dispatch(setDuration(state.duration)); //length of song
-            dispatch(setPosition(state.position)); //position in song on pause
-
+            if (state) {
+              dispatch(setTrack(state.track_window.current_track.name));
+              dispatch(setArtist(state.track_window.current_track.artists[0].name));
+              dispatch(setPaused(state.paused));
+              dispatch(setDuration(state.duration)); //length of song
+              dispatch(setPosition(state.position)); //position in song on pause
+            }
             // Optionally use getCurrentState for further checks
             player.getCurrentState().then((state: SpotifySDKInterface) => {
               if (!state) {
