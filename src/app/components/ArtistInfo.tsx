@@ -7,7 +7,6 @@ import LoadingArtistInfo from "./LoadingArtistInfo";
 
 export default function ArtistInfo() {
   const dispatch = useAppDispatch();
-  const [gettingArtistInfo, setGettingArtistInfo] = useState(false);
   const artistId = useAppSelector((state) => state.ArtistInfo.artistId);
   const artistDataStatus = useAppSelector((state) => state.ArtistInfo.status);
   const musicIsPaused = useAppSelector((state) => state.MusicPlayer.isPaused);
@@ -22,7 +21,8 @@ export default function ArtistInfo() {
     if (musicIsPaused === false) {
       const observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          setGettingArtistInfo(true);
+          dispatch(fetchAndUpdateArtistInfo({ artistId }));
+
           observer.disconnect();
         }
       });
@@ -33,14 +33,7 @@ export default function ArtistInfo() {
 
       return () => observer.disconnect();
     }
-  }, [musicIsPaused === false, artistId, dispatch]);
-
-  useEffect(() => {
-    if (gettingArtistInfo) {
-      dispatch(fetchAndUpdateArtistInfo({ artistId }));
-      setGettingArtistInfo(false);
-    }
-  }, [gettingArtistInfo]);
+  }, [musicIsPaused, artistId, dispatch]);
 
   return (
     <>

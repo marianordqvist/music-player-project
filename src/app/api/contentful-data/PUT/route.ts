@@ -30,6 +30,7 @@ export async function PUT(request: NextRequest) {
         entry.fields.genres["en-US"] = artistInfo.genres;
         entry.fields.readMore["en-US"] = artistInfo.external_urls.spotify;
         entry.fields.imageUrl["en-US"] = artistInfo.images[1].url;
+        entry.fields.id["en-US"] = artistInfo.id;
         return entry.update();
       })
       .catch(console.error);

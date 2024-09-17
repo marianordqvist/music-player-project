@@ -30,7 +30,14 @@ export async function GET(request: NextRequest) {
   try {
     //fetch info about artist
     const artistInfo = await getArtistInfo(accessToken, artistId);
-    return NextResponse.json(artistInfo);
+
+    // Include artistId in the returned artistInfo object
+    const artistInfoFinal = {
+      artistId,
+      ...artistInfo,
+    };
+
+    return NextResponse.json(artistInfoFinal);
   } catch (error) {
     console.error("Error Artist Info: " + error);
     if (error instanceof Error) return NextResponse.json({ error: error.message });

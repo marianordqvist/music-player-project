@@ -29,6 +29,9 @@ interface ArtistInfoSliceInterface {
       imageUrl: {
         [key: string]: string;
       };
+      id: {
+        [key: string]: string;
+      };
     };
   };
 }
@@ -45,8 +48,30 @@ export const fetchAndUpdateArtistInfo = createAsyncThunk(
   async ({ artistId }: { artistId: string }, { dispatch, rejectWithValue }) => {
     try {
       const artistInfo = await dispatch(fetchArtistInfo({ artistId })).unwrap();
+
       await dispatch(updateContentfulEntry({ artistInfo })).unwrap();
-      const updatedEntry = await dispatch(fetchUpdatedContentfulEntry()).unwrap();
+
+      let updatedEntry = await dispatch(fetchUpdatedContentfulEntry()).unwrap();
+
+      // logic for checking that the most recent entry is shown
+      let attempts = 0;
+      const maxAttempts = 5;
+
+      // fetch until ID matches or max attempts are reached
+      while (updatedEntry.fields.id !== artistId && attempts < maxAttempts) {
+        attempts++;
+        updatedEntry = await dispatch(fetchUpdatedContentfulEntry()).unwrap();
+      }
+
+      // check if id of updatedEntry is the same as artistId
+      // if it is, return updatedEntry
+      // if it is not, fetch from contentful again to make sure latest post is returned
+
+      if (updatedEntry.fields.id !== artistId) {
+        // throw new Error("could not fetch latest updated entry");
+        console.log("could not fetch latest updated entry");
+      }
+
       return updatedEntry;
     } catch (error) {
       if (error instanceof Error) {

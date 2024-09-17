@@ -7,19 +7,15 @@ export default function DisplayArtistInfo() {
   const [currentArtist, setCurrentArtist] = useState<any>(null);
 
   useEffect(() => {
-    if (artistData) {
-      // console.log("artistData.fields:", artistData.fields); // Check if fields exists
-      if (artistData.fields) {
-        setCurrentArtist({
-          artistName:
-            artistData.fields?.artistname?.["en-US"] || "No name available",
-          followers: artistData.fields?.followers?.["en-US"] || " ",
-          popularity: artistData.fields?.popularity?.["en-US"] || " ",
-          genres: artistData.fields?.genres?.["en-US"] || [],
-          readMore: artistData.fields?.readMore?.["en-US"] || " ",
-          imageUrl: artistData.fields?.imageUrl?.["en-US"] || "/",
-        });
-      }
+    if (artistData.fields) {
+      setCurrentArtist({
+        artistName: artistData.fields?.artistname?.["en-US"] || "No name available",
+        followers: artistData.fields?.followers?.["en-US"] || " ",
+        popularity: artistData.fields?.popularity?.["en-US"] || " ",
+        genres: artistData.fields?.genres?.["en-US"] || [],
+        readMore: artistData.fields?.readMore?.["en-US"] || " ",
+        imageUrl: artistData.fields?.imageUrl?.["en-US"] || "/",
+      });
     }
   }, [artistData]);
 
