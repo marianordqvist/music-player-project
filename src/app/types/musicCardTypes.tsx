@@ -4,6 +4,7 @@ export interface CardComponentInterface {
   artist: string;
   genre: string;
   onPlay: () => void;
+  onSave: () => void;
   cardId: string;
 }
 
@@ -28,4 +29,5 @@ export interface ApiCardInterface {
   genre: string;
   uri: string;
   id: string;
+  ids: string;
 }

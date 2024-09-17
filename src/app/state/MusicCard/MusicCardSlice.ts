@@ -6,6 +6,7 @@ interface MusicCardSliceInterface {
   status: "idle" | "pending" | "succeeded" | "rejected";
   error: string | null;
   uris: string;
+  ids: string;
 }
 
 const initialState: MusicCardSliceInterface = {
@@ -13,6 +14,7 @@ const initialState: MusicCardSliceInterface = {
   status: "idle",
   error: null,
   uris: "",
+  ids: "",
 };
 
 // thunk to fetch card data
@@ -22,6 +24,27 @@ export const fetchCardInfo = createAsyncThunk(
     const response = await fetch("/api/spotify-data");
     const data = await response.json();
     return data;
+  }
+);
+
+export const saveToSpotifyLibrary = createAsyncThunk(
+  "MusicCard/saveToSpotifyLibrary",
+  async (ids: string, { rejectWithValue }) => {
+    try {
+      const response = await fetch("/api/spotify-data/save", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ids }),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+    }
   }
 );
 

@@ -134,3 +134,23 @@ export const getArtistInfo = async (accessToken: string, artistId: string) => {
 
   return response.json();
 };
+
+// Save song to spotify library
+export const saveToSpotifyLibrary = async (accessToken: string, ids: string) => {
+  const response = await fetch(`${SPOTIFY_API_URL}/me/tracks?ids=${ids}`, {
+    method: "PUT",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ids: [ids] }),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed save song to spotify library (status ${response.status})`
+    );
+  }
+
+  return response.json();
+};

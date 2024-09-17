@@ -7,6 +7,7 @@ import { setUris } from "../state/MusicCard/MusicCardSlice";
 import MusicCard from "./MusicCard";
 import GetMusicCards from "./GetMusicCards";
 import LoadingMusicCards from "./LoadingMusicCards";
+import { saveToSpotifyLibrary } from "../state/MusicCard/MusicCardSlice";
 
 const MusicCardList = () => {
   const dispatch = useAppDispatch(); // extract states from Redux store
@@ -15,7 +16,6 @@ const MusicCardList = () => {
   const position_ms = useAppSelector((state) => state.MusicPlayer.position);
   const uris = useAppSelector((state) => state.MusicCard.uris);
 
-  const [shouldAttemptPlay, setShouldAttemptPlay] = useState(false);
   const [shouldAttemptFetchCards, setShouldAttemptFetchCards] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
 
@@ -29,18 +29,16 @@ const MusicCardList = () => {
 
   // Start playback
   const handlePlay = (uris: string, artistId: string) => {
-    setShouldAttemptPlay(true);
     dispatch(setUris(uris));
     dispatch(setPosition(0));
     dispatch(setArtistId(artistId));
+    dispatch(startPlayback({ uris, device_id, position_ms }));
   };
 
-  useEffect(() => {
-    if (shouldAttemptPlay) {
-      dispatch(startPlayback({ uris, device_id, position_ms }));
-      setShouldAttemptPlay(false);
-    }
-  }, [shouldAttemptPlay]);
+  // save card to spotify library
+  const handleSave = (ids: string) => {
+    dispatch(saveToSpotifyLibrary(ids));
+  };
 
   const MapCards = () => {
     if (cards) {
@@ -56,6 +54,7 @@ const MusicCardList = () => {
                   artist={card.artists[0].name}
                   genre={card.genre}
                   onPlay={() => handlePlay(card.uri, card.artists?.[0].id)}
+                  onSave={() => handleSave(card.id)}
                 />
               </li>
             ))}
@@ -68,6 +67,7 @@ const MusicCardList = () => {
   return (
     <>
       <div className={`musicCardsList-wrapper ${cards ? "" : "h - screen"} `}>
+        {cardStatus === "idle" && hasFetched === false && <LoadingMusicCards />}
         {cardStatus === "pending" && <LoadingMusicCards />}
         {cardStatus === "succeeded" && MapCards()}
         {cardStatus === "rejected" && <div className="">Cannot load cards</div>}
