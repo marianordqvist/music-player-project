@@ -55,8 +55,6 @@ function LoadSpotifySDK() {
               return;
             }
 
-            // console.log(state);
-
             // Assume the player is active whenever player_state_changed is fired
             dispatch(setActive(true));
 

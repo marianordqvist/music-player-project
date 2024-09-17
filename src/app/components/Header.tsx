@@ -21,10 +21,6 @@ export default function Header() {
         </a>
         <div>
           <nav className="flex row items-center font-extrabold gap-3 text-zinc-100">
-            <a href="/" className="">
-              home
-            </a>
-            <a href="/blog">blog</a>
             <UserAvatar />
             <LogOut />
           </nav>

@@ -34,8 +34,6 @@ export async function PUT(request: Request) {
   // parse request body
   const { uris, device_id, position_ms } = await request.json();
 
-  console.log(position_ms);
-
   if (!uris || !device_id) {
     return NextResponse.json(
       { error: "uris, device_id and position_ms must be provided" },
