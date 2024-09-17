@@ -50,7 +50,11 @@ export default function MusicPlayer() {
         const currentTime = Date.now();
         const elapsedTime =
           currentTime - startTime + (position_ms > 0 ? position_ms : 0);
-        const progress = (elapsedTime / duration) * 100;
+        let progress = (elapsedTime / duration) * 100;
+
+        // Ensure percentage does not exceed 100
+        progress = Math.min(progress, 100);
+
         setPercentage(progress);
       }, 50); // times per ms that function is checking
     }
