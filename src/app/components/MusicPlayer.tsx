@@ -81,7 +81,7 @@ export default function MusicPlayer() {
 
   return (
     <>
-      <div className="bg-zinc-700 text-white w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
+      <div className="bg-zinc-800 text-white w-5/6 mx-auto sm:w-3/4 max-w-[700px] rounded-full px-5 text-center p-3 my-10">
         <div className="relative mt-3 mb-5 flex overflow-x-hidden w-2/3 m-auto">
           <div className="animate-marquee1 whitespace-nowrap">
             <span className="">
