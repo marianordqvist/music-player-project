@@ -13,13 +13,13 @@ const borel = Borel({
 
 export default async function Home() {
   return (
-    <main className="max-w-[1400px] mx-auto h-screen mt-0 bg-zinc-950 flex md:items-center justify-center">
+    <main className="max-w-[1400px] mx-auto mt-0 bg-zinc-950 flex md:mt-20 justify-center">
       <div className="wrapper p-2 z-20 xl:5/6 xl:w-4/6 sm:w-5/6 w-full m-5 bg-zinc-900 flex flex-col gap-2 justify-between rounded-3xl ">
-        <div className="middle-part flex sm:flex-row flex-col justify-between">
-          <div className="left flex flex-col mx-5 w-full pr-10 sm:w-1/2 lg:w-1/3 justify-between ">
+        <div className="middle-part flex md:flex-row flex-col justify-between">
+          <div className="left flex flex-col mx-5 w-full pr-10 sm:w-1/2">
             <div className="upper-text">
               <h1
-                className={`title ${borel.variable} mt-6 font-sans italic text-[3.5rem] lg:text-[6rem] xl:text-[5rem] pt-16 text-zinc-200 font-semibold mb-2`}
+                className={`title ${borel.variable} mt-6 font-sans italic text-[3.5rem] lg:text-[6rem] xl:text-[6rem] pt-5 text-zinc-200 font-semibold mb-2`}
               >
                 tune.in
               </h1>
@@ -27,7 +27,7 @@ export default async function Home() {
               <h2 className="subtitle text-zinc-200 w-full text-lg">
                 Tune in to enjoy a vide variety of new and exciting music -
               </h2>
-              <h2 className="mb-20 text-lg">Not at all tailored to your taste!</h2>
+              <h2 className="mb-10 text-lg">Not at all tailored to your taste!</h2>
             </div>
             <div className="buttons pb-5 flex flex-col sm:flex-row w-full gap-3">
               <Login />
