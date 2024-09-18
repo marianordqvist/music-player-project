@@ -1,6 +1,13 @@
 import { auth } from "@/../authconfig";
 import { NextRequest, NextResponse } from "next/server";
-import { getArtistInfo } from "@/_lib/SpotifyService";
+import { getArtistInfo, getArtistTopTracks } from "@/_lib/SpotifyService";
+
+interface topTracksInterface {
+  track: {
+    name: string;
+  };
+  name: string;
+}
 
 // fetch data about artist from Spotify
 export async function GET(request: NextRequest) {
@@ -30,12 +37,19 @@ export async function GET(request: NextRequest) {
   try {
     //fetch info about artist
     const artistInfo = await getArtistInfo(accessToken, artistId);
+    const artistTopTracks = await getArtistTopTracks(accessToken, artistId);
+    const topTracksNames = artistTopTracks.tracks
+      .map((track: topTracksInterface) => track.name)
+      .slice(0, 5);
 
     // Include artistId in the returned artistInfo object
     const artistInfoFinal = {
       artistId,
       ...artistInfo,
+      topTracks: topTracksNames,
     };
+
+    console.log("artistInfoFinal" + JSON.stringify(artistInfoFinal));
 
     return NextResponse.json(artistInfoFinal);
   } catch (error) {

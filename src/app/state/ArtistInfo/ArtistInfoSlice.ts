@@ -32,6 +32,9 @@ interface ArtistInfoSliceInterface {
       id: {
         [key: string]: string;
       };
+      topTracks: {
+        [key: string]: string[];
+      };
     };
   };
 }
@@ -55,17 +58,13 @@ export const fetchAndUpdateArtistInfo = createAsyncThunk(
 
       // logic for checking that the most recent entry is shown
       let attempts = 0;
-      const maxAttempts = 5;
+      const maxAttempts = 2;
 
       // fetch until ID matches or max attempts are reached
       while (updatedEntry.fields.id !== artistId && attempts < maxAttempts) {
         attempts++;
         updatedEntry = await dispatch(fetchUpdatedContentfulEntry()).unwrap();
       }
-
-      // check if id of updatedEntry is the same as artistId
-      // if it is, return updatedEntry
-      // if it is not, fetch from contentful again to make sure latest post is returned
 
       if (updatedEntry.fields.id !== artistId) {
         // throw new Error("could not fetch latest updated entry");

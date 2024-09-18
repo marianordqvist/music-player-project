@@ -31,6 +31,7 @@ export async function PUT(request: NextRequest) {
         entry.fields.readMore["en-US"] = artistInfo.external_urls.spotify;
         entry.fields.imageUrl["en-US"] = artistInfo.images[1].url;
         entry.fields.id["en-US"] = artistInfo.id;
+        entry.fields.topTracks["en-US"] = artistInfo.topTracks;
         return entry.update();
       })
       .catch(console.error);

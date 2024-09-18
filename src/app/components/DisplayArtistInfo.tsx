@@ -15,6 +15,7 @@ export default function DisplayArtistInfo() {
         genres: artistData.fields?.genres?.["en-US"] || [],
         readMore: artistData.fields?.readMore?.["en-US"] || " ",
         imageUrl: artistData.fields?.imageUrl?.["en-US"] || "/",
+        topTracks: artistData.fields?.topTracks?.["en-US"] || [],
       });
     }
   }, [artistData]);
@@ -36,9 +37,9 @@ export default function DisplayArtistInfo() {
               alt="image of artist"
               width={320}
               height={320}
-              className="image bg-zinc-900 w-full h-52 md:w-3/5 rounded-lg object-cover sm:object-cover"
+              className="image bg-zinc-900 w-full h-full max-h-64 md:w-3/5 rounded-lg object-cover sm:object-cover"
             ></Image>
-            <div className="stats-text bg-zinc-900 h-60 sm:h-52 rounded-lg p-3 pl-4 pr-3 gap-2 flex flex-col">
+            <div className="stats-text bg-zinc-900 rounded-lg p-3 pl-4 pr-3 gap-2 flex flex-col">
               <div>
                 <p className="font-bold">Spotify followers: </p>
                 <p>{currentArtist.followers.toLocaleString("en-US")}</p>
@@ -55,8 +56,8 @@ export default function DisplayArtistInfo() {
             </div>
           </div>
         </div>
-        <div className="lower-row h-64 flex flex-col flex-wrap md:flex-row gap-3">
-          <div className="list bg-zinc-900 w-full md:w-1/3 md:h-full rounded-lg p-3 gap-3 flex flex-col">
+        <div className="lower-row flex flex-col md:flex-row gap-3">
+          <div className="list bg-zinc-900 w-full md:w-1/3 rounded-lg p-3 gap-3 flex flex-col">
             <h3 className="font-bold">Genres</h3>
             <ul className="list-disc">
               {currentArtist.genres.length > 0 ? (
@@ -70,9 +71,24 @@ export default function DisplayArtistInfo() {
               )}
             </ul>
           </div>
-          <div className="text p-3 bg-zinc-900 md:h-full flex-grow-[8] mb-10 rounded-lg">
-            <h3>Read more about this artist</h3>
-            <a href={currentArtist.readMore}>Read more link </a>
+          <div className="text flex flex-col justify-between text-black p-3 bg-gradient-to-br from-teal-200 to-teal-900 flex-grow-[8] rounded-lg gap-3">
+            <div className="top-tracks-list">
+              <h3 className="font-bold text-md">Top tracks</h3>
+              <ol className="list-decimal p-3 text-md">
+                {currentArtist.topTracks.length > 0 ? (
+                  currentArtist.topTracks.map((track: string, index: number) => (
+                    <li className="ml-3 px-5 pb-1" key={index}>
+                      {track}
+                    </li>
+                  ))
+                ) : (
+                  <li>No genres available</li>
+                )}
+              </ol>
+            </div>
+            <a href={currentArtist.readMore} className="text-sm font-bold">
+              Click here to read more about this artist on Spotify{" "}
+            </a>
           </div>
         </div>
       </div>

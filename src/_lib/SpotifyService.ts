@@ -135,6 +135,23 @@ export const getArtistInfo = async (accessToken: string, artistId: string) => {
   return response.json();
 };
 
+// Get artist top tracks
+export const getArtistTopTracks = async (accessToken: string, artistId: string) => {
+  const response = await fetch(`${SPOTIFY_API_URL}/artists/${artistId}/top-tracks`, {
+    method: "GET",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch artist top tracks (status ${response.status})`);
+  }
+
+  return response.json();
+};
+
 // Save song to spotify library
 export const saveToSpotifyLibrary = async (accessToken: string, ids: string) => {
   const response = await fetch(`${SPOTIFY_API_URL}/me/tracks?ids=${ids}`, {
