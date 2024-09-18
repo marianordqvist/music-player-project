@@ -1,6 +1,6 @@
 My individual project at the Front end developer programmer at Hyper Island. It is still in early progress. <br>
 
-This is a site to help discover new music and artists. It will let users log in with their spotify account, and see and listen to suggested songs from different artists and genres. It will also feature a blog where different artists and their music will be highlighted.
+This is a site to help discover new music and artists. It will let users log in with their spotify account, and see and listen to suggested songs from different artists and genres. It also allows users to save songs that they like to their Spotify Library Liked songs list.
 
 ## Tech
 
@@ -9,9 +9,8 @@ This is a site to help discover new music and artists. It will let users log in 
 - Typescript
 - Contentful
 - Redux
-- Ghost
 - Tailwind
-- Next-auth
+- Auth.js
 - Spotify Web API
 
 ## Project links
