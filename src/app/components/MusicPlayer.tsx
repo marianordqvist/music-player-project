@@ -88,7 +88,7 @@ export default function MusicPlayer() {
               {artist ? (
                 artist + " - "
               ) : (
-                <p className="text-zinc-500 font-bold pr-10">
+                <p className="text-zinc-500 font-bold">
                   Player is currently inactive. Click a card to start playing.
                 </p>
               )}
