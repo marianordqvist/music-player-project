@@ -68,7 +68,6 @@ export const fetchAndUpdateArtistInfo = createAsyncThunk(
 
       if (updatedEntry.fields.id !== artistId) {
         // throw new Error("could not fetch latest updated entry");
-        console.log("could not fetch latest updated entry");
       }
 
       return updatedEntry;

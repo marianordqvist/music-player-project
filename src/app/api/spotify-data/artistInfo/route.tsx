@@ -49,7 +49,6 @@ export async function GET(request: NextRequest) {
       topTracks: topTracksNames,
     };
 
-    console.log("artistInfoFinal" + JSON.stringify(artistInfoFinal));
 
     return NextResponse.json(artistInfoFinal);
   } catch (error) {
