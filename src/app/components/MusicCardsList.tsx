@@ -15,6 +15,7 @@ const MusicCardList = () => {
   const device_id = useAppSelector((state) => state.MusicPlayer.device_id);
   const position_ms = useAppSelector((state) => state.MusicPlayer.position);
   const uris = useAppSelector((state) => state.MusicCard.uris);
+  const [shouldAttemptPlay, setShouldAttemptPlay] = useState(false);
 
   const [shouldAttemptFetchCards, setShouldAttemptFetchCards] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
@@ -29,11 +30,18 @@ const MusicCardList = () => {
 
   // Start playback
   const handlePlay = (uris: string, artistId: string) => {
+    setShouldAttemptPlay(true);
     dispatch(setUris(uris));
     dispatch(setPosition(0));
     dispatch(setArtistId(artistId));
-    dispatch(startPlayback({ uris, device_id, position_ms }));
   };
+
+  useEffect(() => {
+    if (shouldAttemptPlay) {
+      dispatch(startPlayback({ uris, device_id, position_ms }));
+      setShouldAttemptPlay(false);
+    }
+  }, [shouldAttemptPlay]);
 
   // save card to spotify library
   const handleSave = (ids: string) => {
